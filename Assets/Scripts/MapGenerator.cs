@@ -8,9 +8,12 @@ public class MapGenerator : MonoBehaviour
     {
         //either noisemap or colormap
         NoiseMap,
-        ColorMap
+        ColorMap,
+        Mesh
     }
     public DrawMode drawMode;
+
+    const int mapChunkSize = 241; // Sebastian Lague E:06 LOD
 
     //values that define the map
     public int mapWidth;
@@ -24,6 +27,9 @@ public class MapGenerator : MonoBehaviour
 
     public int seed;
     public Vector2 offset;
+
+    public float meshHeightMultiplier;
+    public AnimationCurve meshHeightCurve;
 
     public bool autoUpdate; //to auto update the height and width and scale automatically and not by pressing generate
 
@@ -62,6 +68,10 @@ public class MapGenerator : MonoBehaviour
         else if (drawMode == DrawMode.ColorMap)
         {
             display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+        }
+        else if (drawMode == DrawMode.Mesh)
+        {
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
        
     }
