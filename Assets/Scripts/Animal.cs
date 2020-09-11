@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Animal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float thirst;
+    public float hunger;
+    public float timeToDeathByThirst;
+    public float timeToDeathByHunger;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int viewDistance; //Distance the animal can see, if neither water or a plant is in viewDistance the animal will wander around
+    public float timeBetweenActionsChoices;
+
+    public float moveSpeed;
 }
