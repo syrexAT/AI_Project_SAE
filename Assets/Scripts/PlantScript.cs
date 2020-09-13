@@ -7,6 +7,13 @@ public class PlantScript : MonoBehaviour
     float amountRemaining = 1;
     const float consumeSpeed = 8;
 
+    public static List<PlantScript> plants = new List<PlantScript>();
+
+    private void Awake()
+    {
+        plants.Add(this);
+    }
+
     public float Consume(float amount)
     {
         float amountConsumed = Mathf.Max(0, Mathf.Min(amountRemaining, amount)); //amount is the amount the animal needs to eat before reaching 0 on hunger level
