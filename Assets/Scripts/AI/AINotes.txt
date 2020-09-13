@@ -28,4 +28,4 @@ Wie spawne ich bäume als obstacles am Mesh?
 Wieso ist mein Mesh gespiegelt? wie ändere ich es?
 Wie spawne ich Tiere(Hasen)/Predator am mesh?
 Wie finde ich heraus was Wasser ist? biome erstellen per height? die positions abspeichern? howwwwwww
-
+Ich adde den hit aus der overlapsphere hinzu wenn ich es hitte, wie remove ich den eintrag wenn ich es nichtmehr hitte?

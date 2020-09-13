@@ -128,6 +128,19 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
+    //When a predator is in range and the animal needs to run away
+    //public class PredatorInRangeTransition : Transition<StateMachineEntity>
+    //{
+    //    public override bool GetIsAllowed()
+    //    {
+            
+    //        //if (predatorInRange.)
+    //        //{
+
+    //        //}
+    //    }
+    //}
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -142,7 +155,7 @@ public class StateMachineEntity : MonoBehaviour
         stateMachine.SetInitialState("Idle");
 
         //Transitions (stateMachine.AddTransition)
-        stateMachine.AddTransition(new)
+        //stateMachine.AddTransition(new)
 
     }
 
@@ -157,6 +170,15 @@ public class StateMachineEntity : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, 100);
     }
 
+
+    //IT WILL NOT DETECT STUFF THAT LEFT THE OVERLAPSPHERE
+    //Either way, https://answers.unity.com/questions/1180873/can-you-use-oncollisionexit-with-an-overlapsphere.html
+    //or just replace the overlapshere in general with a spherical collider in the same size as the overlapsphere,
+    //so I can use OnCollisionEnter/Exit methods, will probably be the simplier solution
+    //OR
+    //keep a current collection of in-range objects, and a previous collection of inrange objects
+    //then compare the objects in current collection to those in previous collection
+    //objects that are in previous collection and not in current collection have moved out of range
     public void ViewDistanceCheck()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100);
@@ -166,11 +188,17 @@ public class StateMachineEntity : MonoBehaviour
             if (hit.gameObject.tag == "Plant")
             {
                 AddObjectToListOnce(hit.gameObject, plantsInRange);
+                //if (hitColliders.)
+                //{
+                    
+                //}
             }
             if (hit.gameObject.tag == "Predator")
             {
                 AddObjectToListOnce(hit.gameObject, predatorInRange);
             }
+
+            //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
         }
         Debug.Log(plantsInRange.Count);
     }
