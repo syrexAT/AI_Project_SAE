@@ -1,0 +1,31 @@
+Idle = Wander?
+Tier hat 2 Bedürfnisse, Trinken und Essen/Durst und Hunger
+
+Wenn Durst Bedürfnis Wert höher ist als Hunger Bedürfnis Wert --> falls kein Wasser in Range 
+--> WanderAround --> Sobald Wasser in range --> SearchWaterState
+
+Selbes andersrum, wenn hunger bedürfnis wert höher ist als durst wert --> falls keine plant in Range 
+--> WanderAround --> Sobald Essen in range ist --> SearchFoodState
+
+Bis jetzt macht SearchFoodState nur das er hingeht zum essen
+Vielleicht noch ein State wenn er dort ist das er isst eine zeit lang(siehe plant script Consume())
+
+Wenn in irgendeinem State ein Predator in seinen View Radius kommt,
+läuft er weg, solange bis er entweder entkommt, oder er wird aufgegessen und rip
+
+Falls er entkommt, wird wieder geschaut ist essen oder durst bedürfnis höher,
+dann wieder entscheiden ob er WanderAround macht wenn es nicht in Range ist
+oder sofort dann im State SearchFood/Water ist wenn es in Range ist
+
+Welche Transitions brauche ich?
+
+
+
+Fragen:
+Welche Transitions brauche ich?
+Wie spawne ich pflanzen am Mesh und nicht auf der Color map?
+Wie spawne ich bäume als obstacles am Mesh?
+Wieso ist mein Mesh gespiegelt? wie ändere ich es?
+Wie spawne ich Tiere(Hasen)/Predator am mesh?
+Wie finde ich heraus was Wasser ist? biome erstellen per height? die positions abspeichern? howwwwwww
+

@@ -27,7 +27,7 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Update()
         {
-            float bestDistance = Mathf.Infinity;
+            //float bestDistance = Mathf.Infinity;
 
         }
     }
@@ -100,9 +100,11 @@ public class StateMachineEntity : MonoBehaviour
 
     }
 
+
+
     public class WanderAroundState : State<StateMachineEntity>
     {
-        public float wanderRadius = 50f; //not tested
+        public float wanderRadius = 50f; //not tested, probably needs to be set much lower 
         public float wanderTimer = 1f; //not tested
 
         private Transform target;
@@ -129,13 +131,24 @@ public class StateMachineEntity : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        stateMachine = new StateMachine<StateMachineEntity>();
+
+        //StateMachine
+        stateMachine.AddState(new SearchFoodState() { objectReference = this }, "SearchFood");
+        stateMachine.AddState(new EvadePredatorState() { objectReference = this }, "EvadePredator");
+        stateMachine.AddState(new WanderAroundState() { objectReference = this }, "WanderAround");
+        stateMachine.AddState(new IdleState() { objectReference = this }, "Idle");
+
+        stateMachine.SetInitialState("Idle");
+
+        //Transitions (stateMachine.AddTransition)
+        stateMachine.AddTransition(new)
+
     }
 
     private void Update()
     {
-        //stateMachine.Update();
-
-        //Physics.OverlapSphere(transform.position, 100);
+        stateMachine.Update();
         ViewDistanceCheck();
     }
 
