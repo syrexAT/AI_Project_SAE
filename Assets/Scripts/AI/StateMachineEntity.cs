@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class StateMachineEntity : MonoBehaviour
 {
+    //Vielleicht in singelton umwandeln, und static vermeiden?
+    private static StateMachineEntity instance = null;
+
     public NavMeshAgent agent;
 
     public StateMachine<StateMachineEntity> stateMachine;
@@ -14,6 +17,9 @@ public class StateMachineEntity : MonoBehaviour
     public float viewRadius = 10f;
 
     public static List<GameObject> plantsInRange = new List<GameObject>(); //Static weil ich sonst nicht im SearchFoodState unter Update drauf zugreifen kann
+
+
+
 
     public class SearchWaterState : State<StateMachineEntity>
     {
@@ -49,14 +55,40 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    public class EvadePlayerState : State<StateMachineEntity>
+    public class EvadePredatorState : State<StateMachineEntity>
     {
 
     }
 
-    public class IdleState : State<StateMachineEntity>
+    public class IdleState : State<StateMachineEntity> //Animal/rabbit should wander around searching for water/plant, as it can only detect water/plant in its view Radius
     {
 
+    }
+
+    public class WanderAroundState : State<StateMachineEntity>
+    {
+        public float wanderRadius = 50f; //not tested
+        public float wanderTimer = 1f; //not tested
+
+        private Transform target;
+        private float timer;
+
+        public override void Entered()
+        {
+            timer = wanderTimer;
+        }
+
+        public override void Update()
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= wanderTimer)
+            {
+                Vector3 newPos = RandomNavSphere(objectReference.transform.position, wanderRadius, -1);
+                objectReference.agent.SetDestination(newPos);
+                timer = 0;
+            }
+        }
     }
 
     private void Awake()
@@ -97,6 +129,18 @@ public class StateMachineEntity : MonoBehaviour
         {
             myList.Add(obj);
         }
+    }
+
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
+        randDirection += origin;
+
+        NavMeshHit navHit;
+
+        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+        return navHit.position;
     }
 
 }
