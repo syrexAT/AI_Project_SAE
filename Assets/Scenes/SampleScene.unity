@@ -1091,6 +1091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   r: {fileID: 0}
   tree: {fileID: 5500312275653735511, guid: 9b2b48f8b683bdc4dbb641e397cebace, type: 3}
+  plant: {fileID: 6749831837170361668, guid: cac57c178e353464fab3c74f34c5680f, type: 3}
   numberOfTrees: 50
   currentTrees: 0
   mapGen: {fileID: 0}

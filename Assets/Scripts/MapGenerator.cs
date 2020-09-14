@@ -77,8 +77,10 @@ public class MapGenerator : MonoBehaviour
                             boundsTest.SpawnTrees(x, y);
                             //}
                         }
-
-
+                        if (Random.value <= 0.03f)
+                        {
+                            boundsTest.SpawnPlants(x, y);
+                        }
                     }
 
                     if (currentHeight <= regions[i].height)//we found the region that it falls within

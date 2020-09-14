@@ -49,18 +49,20 @@ public class BoundsTest : MonoBehaviour
         RaycastHit hit;
         //if (currentTrees <= numberOfTrees)
         //{
-            Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
-            if (Physics.Raycast(new Vector3(-(x * 10f - 315f), 100f, -(y * 10f - 315f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
+        if (Physics.Raycast(new Vector3(-(x * 10f - 315f), 100f, -(y * 10f - 315f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        {
+            if (hit.transform.tag == "Plant" && hit.transform.tag == "Tree")
             {
-                Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                Debug.Log("Hit Point: " + hit.point);
-                //currentTrees += 1;
+                return;
             }
             else
             {
-                Debug.Log("No Ray!");
-                return;
+                Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                Debug.Log("Hit Point: " + hit.point);
             }
+        }
+
         //}
     }
 
@@ -70,8 +72,16 @@ public class BoundsTest : MonoBehaviour
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
         if (Physics.Raycast(new Vector3(-(x * 10f - 315f), 100f, -(y * 10f - 315f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-            Debug.Log("Hit Point: " + hit.point);
+            if (hit.transform.tag == "Plant" && hit.transform.tag == "Tree")
+            {
+                return;
+            }
+            else
+            {
+                Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                Debug.Log("Hit Point: " + hit.point);
+            }
+
         }
         else
         {
