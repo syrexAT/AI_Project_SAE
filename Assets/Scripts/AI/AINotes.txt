@@ -20,6 +20,43 @@ oder sofort dann im State SearchFood/Water ist wenn es in Range ist
 Welche Transitions brauche ich?
 
 
+SearchWaterState
+SearchFoodState
+EvadePredatorState
+IdleState
+WanderAroundState
+
+SearchWaterState --> Evade (Too close)
+SearchFoodState --> Evade (Too close)
+Idle --> Evade (Too close)
+WanderAroundState --> Evade(too close)
+
+Evade --> WanderAround (not too close)
+
+WanderAround --> SearchWaterState (WENN ER MEHR DURST ALS HUNGER HAT UND EINE WASSERQUELLE IN VIEW DISTANCE IST) WENN NICHT IN VIEW DISTANCE BLEIBT ER BEI WANDERAROUND bzw geht wieder ins wanderaround
+WanderAround --> SearchFoodState (WENN ER MEHR HUNGER ALS DURST HAT UND EINE PFLANZE IN VIEW DISTANCE IST) WENN NICHT IN VIEW DISTANCE BLEIBT ER BEI WANDERAROUND
+
+SearchWaterState --> SearchFoodState (WENN FOOD IN VIEW DISTANCE KANN ER DIREKT HIN UND ESSEN, oder man macht wanderaround dazwischen und es wird instant geskipped?)
+SearchFoodState --> SearchWaterState (WENN WASSER IN VIEW DISTANCE KANN ER DIREKT HIN UND TRINKEN)
+
+SearchWaterState --> WanderAround (wenn er mehr hunger hat und keine pflanze in range ist)
+SearchFoodState --> WanderAround (wenn er mehr durst hat und keine pflanze in range ist)
+
+Wasser trinken hat eine gewisse länge danach ist die state fertig und es wird probably die foodstate gestartet weil der hunger höher sein wird
+beim Food das selbe
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Fragen:
 Welche Transitions brauche ich?

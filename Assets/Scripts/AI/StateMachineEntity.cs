@@ -16,10 +16,13 @@ public class StateMachineEntity : MonoBehaviour
 
     public float moveSpeed = 2f;
 
-    public static float viewRadius = 10f;
+   /* public static float viewRadius = 10f;*/ //this needs to be the radius of the view radius detection collider on the child of statemachinentity!!!!
+    public ViewDistanceScript viewDistanceScript;
+    public SphereCollider viewDistanceCollider;
+    public float viewDistance;
 
-    public static List<GameObject> plantsInRange = new List<GameObject>(); //Static weil ich sonst nicht im SearchFoodState unter Update drauf zugreifen kann
-    public static List<GameObject> predatorInRange = new List<GameObject>();
+    public List<GameObject> plantsInRange = new List<GameObject>(); //Static weil ich sonst nicht im SearchFoodState unter Update drauf zugreifen kann
+    public List<GameObject> predatorInRange = new List<GameObject>();
 
 
 
@@ -34,14 +37,14 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    //Sollte funktionieren
+    //Sollte funktionieren, es muss noch hunger eingefügt werden
     public class SearchFoodState : State<StateMachineEntity>
     {
         public override void Update()
         {
             float bestDistance = Mathf.Infinity;
             GameObject bestPlant = null; //bestPlant = closest plant
-            foreach (var plant in plantsInRange)
+            foreach (var plant in objectReference.plantsInRange)
             {
                 float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
                 if (dist < bestDistance)
@@ -69,7 +72,7 @@ public class StateMachineEntity : MonoBehaviour
         {
             float bestDistance = Mathf.Infinity;
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
-            foreach (var predator in predatorInRange) //to find out which predator is the nearest
+            foreach (var predator in objectReference.plantsInRange) //to find out which predator is the nearest
             {
                 float dist = Vector3.Distance(objectReference.transform.position, predator.transform.position);
                 if (dist < bestDistance)
@@ -82,9 +85,9 @@ public class StateMachineEntity : MonoBehaviour
             if (bestPredator != null) //wenn er den nähesten gefunden hat
             {
                 float distance = Vector3.Distance(objectReference.transform.position, bestPredator.transform.position); //distance between predator and animal
-                Debug.Log("Distance: " + distance);
+                //Debug.Log("Distance: " + distance);
 
-                if (distance < viewRadius * 2) //*2 weil radius 100? von mitte aus geht in eine richtung 50 und in die andere nochmal 50?
+                if (distance < objectReference.viewDistance)
                 {
                     Vector3 dirToPredator = objectReference.transform.position - bestPredator.transform.position;
 
@@ -131,33 +134,137 @@ public class StateMachineEntity : MonoBehaviour
     }
 
     //When a predator is in range and the animal needs to run away
-    //public class PredatorInRangeTransition : Transition<StateMachineEntity>
-    //{
-    //    public override bool GetIsAllowed()
-    //    {
+    public class PredatorInRangeTransition : Transition<StateMachineEntity> //hier soll er ins EvadePredator gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            float bestDistance = Mathf.Infinity;
+            GameObject bestPredator = null; //to prioritze the predator who is the nearest
+            foreach (var predator in objectReference.plantsInRange) //to find out which predator is the nearest
+            {
+                float dist = Vector3.Distance(objectReference.transform.position, predator.transform.position);
+                if (dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    bestPredator = predator;
+                }
+            }
 
-    //        //if (predatorInRange.)
-    //        //{
+            if (bestPredator != null)
+            {
+                float distance = Vector3.Distance(objectReference.transform.position, bestPredator.transform.position);
+                return distance < objectReference.viewDistance;
+            }
 
-    //        //}
-    //    }
-    //}
+            return false;
+            //if (predatorInRange.)
+            //{
+
+            //}
+        }
+    }
+
+    public class PredatorOutOfRangeTransition : PredatorInRangeTransition //hier soll er ins WanderAround gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            return !base.GetIsAllowed();
+        }
+    }
+
+    public class FoodInRangeTransition : Transition<StateMachineEntity> //fehlt hier noch ein return für true? oderso? //hier soll er in SearchFood gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            float bestDistance = Mathf.Infinity;
+            GameObject bestPlant = null; //bestPlant = closest plant
+            foreach (var plant in objectReference.plantsInRange)
+            {
+                float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
+                if (dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    bestPlant = plant;
+                }
+            }
+
+            if (bestPlant != null)
+            {
+                //zur nähesten pflanze gehen
+                objectReference.agent.SetDestination(bestPlant.transform.position);
+            }
+
+            return false;
+        }
+    }
+
+    public class FoodOutOfRangeTransition : FoodInRangeTransition //hier soll er in WanderAround gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            return !base.GetIsAllowed();
+        }
+    }
+
+    public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            return !base.GetIsAllowed();
+        }
+    }
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        viewDistanceCollider = GetComponentInChildren<SphereCollider>();
+        viewDistance = viewDistanceCollider.radius * 2f; //*2 weil radius(kreis) und wir brauchen den genauen durchmesser für den distance check?
         stateMachine = new StateMachine<StateMachineEntity>();
+
+        #region States
 
         //StateMachine
         stateMachine.AddState(new SearchFoodState() { objectReference = this }, "SearchFood");
+        stateMachine.AddState(new SearchWaterState() { objectReference = this }, "SearchWater");
         stateMachine.AddState(new EvadePredatorState() { objectReference = this }, "EvadePredator");
         stateMachine.AddState(new WanderAroundState() { objectReference = this }, "WanderAround");
         stateMachine.AddState(new IdleState() { objectReference = this }, "Idle");
 
-        stateMachine.SetInitialState("Idle");
+/*        stateMachine.SetInitialState("Idle");*/ //IDLE ODER WANDERAROUND?
+        stateMachine.SetInitialState("WanderAround");
+        #endregion
 
+        #region Transitions
         //Transitions (stateMachine.AddTransition)
+        //!!! Vielleicht immer das WanderAround dazwische haben und nicht direkt von SearchFood zu SearchWater / und andersrum gehen
         //stateMachine.AddTransition(new)
+        stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "SearchFood", "EvadePredator");
+        stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "SearchWater", "EvadePredator");
+        stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "WanderAround", "EvadePredator");
+        stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "Idle", "EvadePredator"); //may be removed
+
+        stateMachine.AddTransition(new PredatorOutOfRangeTransition() { objectReference = this }, "EvadePredator", "Idle"); //may be removed, idle is the wanderAround state probably
+        stateMachine.AddTransition(new PredatorOutOfRangeTransition() { objectReference = this }, "EvadePredator", "WanderAround");
+
+        //wenn mehr durst als hunger und kein wasser in sicht, befindet er sich in WanderAround und wenn wasser in Sicht macht er SearchWater
+        stateMachine.AddTransition(new FoodInRangeTransition() { objectReference = this }, "WanderAround", "SearchFood"); //wenn er nicht direkt eine Pflanze in Range hat ist er ja im WanderAround, da soll er dann ins Searchfood gehen wenns in Range ist und er den hunger hat
+        stateMachine.AddTransition(new FoodInRangeTransition() { objectReference = this }, "SearchWater", "SearchFood"); //wenn er den hunger hat kann er direkt von SearchWater zu SearchFood WENN eine pflanze in range ist
+
+        //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
+        stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
+
+        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
+        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
+        #endregion
+
 
     }
 
@@ -209,17 +316,17 @@ public class StateMachineEntity : MonoBehaviour
         Debug.Log("Plants: " + plantsInRange.Count);
         Debug.Log("Predator " + predatorInRange.Count);
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Plant")
-        {
-            plantsInRange.Add(other.gameObject);
-        }
-        if (other.gameObject.tag == "Predator")
-        {
-            predatorInRange.Add(other.gameObject);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Plant")
+    //    {
+    //        plantsInRange.Add(other.gameObject);
+    //    }
+    //    if (other.gameObject.tag == "Predator")
+    //    {
+    //        predatorInRange.Add(other.gameObject);
+    //    }
+    //}
 
     public void AddObjectToListOnce(GameObject obj, List<GameObject> myList)
     {
