@@ -73,7 +73,7 @@ public class MapGenerator : MonoBehaviour
                             //Debug.Log(x + "    " + y);
                             //if (Random.Range(0,101) < 20)
                             //{
-                            Debug.Log(x + "    " + y);
+                            //Debug.Log(x + "    " + y);
                             boundsTest.SpawnTrees(x, y);
                             //}
                         }

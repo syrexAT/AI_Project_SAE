@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class StateMachineEntity : MonoBehaviour
 {
     //Vielleicht in singelton umwandeln, und static vermeiden?
-    private static StateMachineEntity instance = null;
+    public static StateMachineEntity _instance;
+
 
     public NavMeshAgent agent;
 
@@ -133,7 +135,7 @@ public class StateMachineEntity : MonoBehaviour
     //{
     //    public override bool GetIsAllowed()
     //    {
-            
+
     //        //if (predatorInRange.)
     //        //{
 
@@ -181,26 +183,42 @@ public class StateMachineEntity : MonoBehaviour
     //objects that are in previous collection and not in current collection have moved out of range
     public void ViewDistanceCheck()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100);
-        foreach (var hit in hitColliders)
-        {
-            Debug.Log(hit.gameObject.name + " " + hit.gameObject.transform.position);
-            if (hit.gameObject.tag == "Plant")
-            {
-                AddObjectToListOnce(hit.gameObject, plantsInRange);
-                //if (hitColliders.)
-                //{
-                    
-                //}
-            }
-            if (hit.gameObject.tag == "Predator")
-            {
-                AddObjectToListOnce(hit.gameObject, predatorInRange);
-            }
+        //List<Collider> currentCollection = new List<Collider>();
+        //List<Collider> previousCollection = new List<Collider>();
 
-            //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
+        //Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100);
+        //foreach (var hit in hitColliders)
+        //{
+        //    currentCollection.Add(hit);
+        //    Debug.Log(hit.gameObject.name + " " + hit.gameObject.transform.position);
+        //    if (hit.gameObject.tag == "Plant")
+        //    {
+        //        AddObjectToListOnce(hit.gameObject, plantsInRange);
+        //        //if (hitColliders.)
+        //        //{
+
+        //        //}
+        //    }
+        //    if (hit.gameObject.tag == "Predator")
+        //    {
+        //        AddObjectToListOnce(hit.gameObject, predatorInRange);
+        //    }
+
+        //    //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
+        //}
+        Debug.Log("Plants: " + plantsInRange.Count);
+        Debug.Log("Predator " + predatorInRange.Count);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Plant")
+        {
+            plantsInRange.Add(other.gameObject);
         }
-        Debug.Log(plantsInRange.Count);
+        if (other.gameObject.tag == "Predator")
+        {
+            predatorInRange.Add(other.gameObject);
+        }
     }
 
     public void AddObjectToListOnce(GameObject obj, List<GameObject> myList)

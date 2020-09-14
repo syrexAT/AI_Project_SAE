@@ -40,8 +40,8 @@ public class BoundsTest : MonoBehaviour
 
     public void SpawnTrees(float x, float y)
     {
-        Debug.Log("XMin: " + r.bounds.min.x + " XMax: " + r.bounds.max.x);
-        Debug.Log("ZMin: " + r.bounds.min.z + " ZMax: " + r.bounds.max.z);
+        //Debug.Log("XMin: " + r.bounds.min.x + " XMax: " + r.bounds.max.x);
+        //Debug.Log("ZMin: " + r.bounds.min.z + " ZMax: " + r.bounds.max.z);
 
         //randomX = Random.Range(r.bounds.min.x, r.bounds.max.x);
         //randomZ = Random.Range(r.bounds.min.z, r.bounds.max.z);
@@ -59,7 +59,7 @@ public class BoundsTest : MonoBehaviour
             else
             {
                 Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                Debug.Log("Hit Point: " + hit.point);
+                //Debug.Log("Hit Point: " + hit.point);
             }
         }
 
@@ -79,7 +79,7 @@ public class BoundsTest : MonoBehaviour
             else
             {
                 Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                Debug.Log("Hit Point: " + hit.point);
+                //Debug.Log("Hit Point: " + hit.point);
             }
 
         }
