@@ -810,6 +810,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   moveSpeed: 2
+  viewDistanceScript: {fileID: 0}
+  viewDistanceCollider: {fileID: 0}
+  viewDistance: 0
   plantsInRange: []
   predatorInRange: []
 --- !u!54 &1217366191
@@ -1380,7 +1383,7 @@ PrefabInstance:
     - target: {fileID: 8149102825522448249, guid: cac57c178e353464fab3c74f34c5680f,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cac57c178e353464fab3c74f34c5680f, type: 3}

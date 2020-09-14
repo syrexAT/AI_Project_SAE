@@ -25,7 +25,7 @@ public class StateMachineEntity : MonoBehaviour
     public List<GameObject> predatorInRange = new List<GameObject>();
 
 
-
+    #region States
     //Need to detect water tiles, they have a noise float below 0.4 (see inspector -> MapGenerator)
     //Get an array/list? of all water tiles in view Distance, go to nearest one
     public class SearchWaterState : State<StateMachineEntity>
@@ -132,7 +132,9 @@ public class StateMachineEntity : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Transitions
     //When a predator is in range and the animal needs to run away
     public class PredatorInRangeTransition : Transition<StateMachineEntity> //hier soll er ins EvadePredator gehen
     {
@@ -221,6 +223,7 @@ public class StateMachineEntity : MonoBehaviour
             return !base.GetIsAllowed();
         }
     }
+    #endregion
 
     private void Awake()
     {
@@ -244,7 +247,7 @@ public class StateMachineEntity : MonoBehaviour
 
         #region Transitions
         //Transitions (stateMachine.AddTransition)
-        //!!! Vielleicht immer das WanderAround dazwische haben und nicht direkt von SearchFood zu SearchWater / und andersrum gehen
+        //!!! Vielleicht immer das WanderAround dazwische haben und nicht direkt von SearchFood zu SearchWater / und andersrum gehen !!!
         //stateMachine.AddTransition(new)
         stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "SearchFood", "EvadePredator");
         stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "SearchWater", "EvadePredator");
@@ -290,6 +293,7 @@ public class StateMachineEntity : MonoBehaviour
     //objects that are in previous collection and not in current collection have moved out of range
     public void ViewDistanceCheck()
     {
+        #region //Function with OverlapSphere(not done/COMMENTED)
         //List<Collider> currentCollection = new List<Collider>();
         //List<Collider> previousCollection = new List<Collider>();
 
@@ -313,20 +317,10 @@ public class StateMachineEntity : MonoBehaviour
 
         //    //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
         //}
+        #endregion
         Debug.Log("Plants: " + plantsInRange.Count);
         Debug.Log("Predator " + predatorInRange.Count);
     }
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Plant")
-    //    {
-    //        plantsInRange.Add(other.gameObject);
-    //    }
-    //    if (other.gameObject.tag == "Predator")
-    //    {
-    //        predatorInRange.Add(other.gameObject);
-    //    }
-    //}
 
     public void AddObjectToListOnce(GameObject obj, List<GameObject> myList)
     {
