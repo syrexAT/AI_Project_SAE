@@ -4,6 +4,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
+//STATE MACHINE FOR ANIMAL(RABBIT)
 public class StateMachineEntity : MonoBehaviour
 {
     //Vielleicht in singelton umwandeln, und static vermeiden?
@@ -25,6 +26,8 @@ public class StateMachineEntity : MonoBehaviour
     public List<GameObject> predatorInRange = new List<GameObject>();
     public List<Vector2> waterInRange = new List<Vector2>();
 
+    public Animal animal;
+
 
     #region States
     //Need to detect water tiles, they have a noise float below 0.4 (see inspector -> MapGenerator)
@@ -33,14 +36,9 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Update()
         {
-            //Find Water in View Distance
-            foreach (var water in MapGenerator.waterList)
-            {
-                if (Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position) <= objectReference.viewDistance)
-                {
-                    objectReference.waterInRange.Add(water);
-                }
-            }
+            //Find Water in View Distance --> gehört wo anders hin? weil er hierfür in dem state sein muss
+
+
             //float bestDistance = Mathf.Infinity;
             //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
             //von allen pnktne kriegt man die distance,  --> genauso wie unten
@@ -85,6 +83,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 //zur nähesten pflanze gehen
                 objectReference.agent.SetDestination(bestPlant.transform.position);
+                //hier food essen, code ausführen das pflanze kleiner wird und dann deleted wird und er währenddessen isst
             }
         }
     }
@@ -169,7 +168,7 @@ public class StateMachineEntity : MonoBehaviour
         {
             float bestDistance = Mathf.Infinity;
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
-            foreach (var predator in objectReference.plantsInRange) //to find out which predator is the nearest
+            foreach (var predator in objectReference.predatorInRange) //to find out which predator is the nearest
             {
                 float dist = Vector3.Distance(objectReference.transform.position, predator.transform.position);
                 if (dist < bestDistance)
@@ -182,7 +181,7 @@ public class StateMachineEntity : MonoBehaviour
             if (bestPredator != null)
             {
                 float distance = Vector3.Distance(objectReference.transform.position, bestPredator.transform.position);
-                return distance < objectReference.viewDistance;
+                return distance < objectReference.viewDistance; //so passts!
             }
 
             return false;
@@ -217,10 +216,11 @@ public class StateMachineEntity : MonoBehaviour
                 }
             }
 
-            if (bestPlant != null)
+            if (bestPlant != null && (objectReference.animal.moreHungry || objectReference.animal.criticalPercent > objectReference.animal.hunger))
             {
                 //zur nähesten pflanze gehen
-                objectReference.agent.SetDestination(bestPlant.transform.position);
+                float distance = Vector3.Distance(objectReference.transform.position, bestPlant.transform.position);
+                return distance < objectReference.viewDistance;
             }
 
             return false;
@@ -235,28 +235,50 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    //public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
-    //{
-    //    public override bool GetIsAllowed()
-    //    {
-    //        throw new System.NotImplementedException();
-    //    }
-    //}
+    public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            float bestDistance = Mathf.Infinity; //glaub ich?
+            Vector2 bestWater = Vector2.zero;
+            foreach (var water in objectReference.waterInRange)
+            {
+                float dist = Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position);
+                if (dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    bestWater = water;
+                }
+            }
 
-    //public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
-    //{
-    //    public override bool GetIsAllowed()
-    //    {
-    //        return !base.GetIsAllowed();
-    //    }
-    //}
+            if (bestWater != Vector2.zero)
+            {
+                objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y)); //Vector3?
+                float distance = Vector3.Distance(objectReference.transform.position, bestWater);
+                return distance < objectReference.viewDistance;
+            }
+
+            return false;
+        }
+    }
+
+    public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
+    {
+        public override bool GetIsAllowed()
+        {
+            return !base.GetIsAllowed();
+        }
+    }
     #endregion
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animal = GetComponent<Animal>();
         viewDistanceCollider = GetComponentInChildren<SphereCollider>();
-        viewDistance = viewDistanceCollider.radius * 2f; //*2 weil radius(kreis) und wir brauchen den genauen durchmesser für den distance check?
+        viewDistance = viewDistanceCollider.radius * 10f; //noch * 2 ????, *10f weil der viewDistanceCollider 1x1x1 ist und nicht 10x10x10 wie der Animal selber
+        print(viewDistance);
+        print(viewDistanceCollider.radius);
         stateMachine = new StateMachine<StateMachineEntity>();
 
         #region States
@@ -291,22 +313,35 @@ public class StateMachineEntity : MonoBehaviour
         //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
         stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
 
-        //stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
-        //stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
+        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
+        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
         #endregion
 
 
     }
 
+    
+
     private void Update()
     {
         stateMachine.Update();
         ViewDistanceCheck();
+
+        //foreach (var water in MapGenerator.waterList)
+        //{
+        //    if (Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position) <= objectReference.viewDistance)
+        //    {
+        //        objectReference.waterInRange.Add(water);
+        //    }
+        //}
+
+
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, 100);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, viewDistance);
     }
 
 
@@ -345,8 +380,11 @@ public class StateMachineEntity : MonoBehaviour
         //    //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
         //}
         #endregion
+
+        //Checking is handled in ViewDistanceScript
         Debug.Log("Plants: " + plantsInRange.Count);
         Debug.Log("Predator " + predatorInRange.Count);
+        Debug.Log("WaterTiles " + waterInRange.Count);
     }
 
     public void AddObjectToListOnce(GameObject obj, List<GameObject> myList)
@@ -356,6 +394,7 @@ public class StateMachineEntity : MonoBehaviour
             myList.Add(obj);
         }
     }
+
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {

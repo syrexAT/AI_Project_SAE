@@ -6,7 +6,7 @@
 das heißt man muss doch mit Overlapssphere arbeiten, oder irgendwie der Entity die Wasserpositions mittteilen, und dann in einer Range abfragen (ViewDistance von der Entitity)
 ob er Wasser sieht, wenn ja soll er mit den schnellste path zum Wasser gehen
 Vielleicht detectbar damit, weil es nicht Walkable/Hohe cost hat? maybe ein workaround -- Adrian fragen!
-[] Entitity müssen Wasser detecten und path zur nähesten Wasserstelle gehen
+[X] Entitity müssen Wasser detecten und path zur nähesten Wasserstelle gehen
 [] Tiere(Hasen) und Predators spawnen lassen (wo land is obviously wieder, gleiche methode wie mit den Trees/Plants aufs mesh raycasten)
 
 [] Pflanzen nachwachsen lassen?

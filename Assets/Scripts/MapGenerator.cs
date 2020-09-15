@@ -177,6 +177,7 @@ public class MapGenerator : MonoBehaviour
     //    {
     //        Gizmos.DrawSphere(new Vector3(water.x, 0, water.y), 1f);
     //        Debug.Log("DrawWater");
+            
     //    }
     //}
 
