@@ -20,3 +20,9 @@ Vielleicht detectbar damit, weil es nicht Walkable/Hohe cost hat? maybe ein work
 
 ---Optional---
 Color gradients einfügen für mesh (start end color statt nur color, siehe Lague video) oder terrain shaders?
+
+
+
+SEARCHWATER/FOOD unterteilen
+State --> den nähesten suchen und hingehen
+wenn angekommen DrinkWater /EatFood state wo er consumed mit der duration, hunger/durst runter geht und sobald er fertig ist den state wechselt zu mehr thirsty -> SearchWater oder hunger -> SearchFood

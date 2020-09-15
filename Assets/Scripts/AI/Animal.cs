@@ -6,7 +6,7 @@ public class Animal : MonoBehaviour
 {
     public float thirst;
     public float hunger;
-    public float timeToDeathByThirst = 200;
+    public float timeToDeathByThirst = 100;
     public float timeToDeathByHunger = 200;
 
     public bool moreHungry = false;
@@ -29,8 +29,8 @@ public class Animal : MonoBehaviour
 
     private void Update()
     {
-        hunger = Time.deltaTime * 1 / timeToDeathByHunger;
-        thirst = Time.deltaTime * 1 / timeToDeathByThirst;
+        hunger += Time.deltaTime * 1 / timeToDeathByHunger;
+        thirst += Time.deltaTime * 1 / timeToDeathByThirst;
 
         //Destroy/Die gameobject when hunger/thirst is >= 1
 
