@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tree
   - Plant
+  - Animal
   layers:
   - Default
   - TransparentFX

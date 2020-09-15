@@ -51,12 +51,17 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject tree;
 
+    public List<Vector2> waterList = new List<Vector2>();
+
     public void GenerateMap()
     {
+        waterList.Clear();
         //fetching the 2D noise map from the noise class; later on much more stuff to process the noise map to turn it into terrain map
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
 
         Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
+
+
 
         for (int y = 0; y < mapChunkSize; y++)
         {
@@ -66,26 +71,34 @@ public class MapGenerator : MonoBehaviour
                 for (int i = 0; i < regions.Length; i++)
                 {
 
-                    if (regions[i].height >= 0.8f)
-                    {
-                        if (Random.value <= 0.025f)
-                        {
-                            //Debug.Log(x + "    " + y);
-                            //if (Random.Range(0,101) < 20)
-                            //{
-                            //Debug.Log(x + "    " + y);
-                            boundsTest.SpawnTrees(x, y);
-                            //}
-                        }
-                        if (Random.value <= 0.03f)
-                        {
-                            boundsTest.SpawnPlants(x, y);
-                        }
-                    }
 
                     if (currentHeight <= regions[i].height)//we found the region that it falls within
                     {
                         colorMap[y * mapChunkSize + x] = regions[i].color; //now all colors are saved in the array
+
+                        if (regions[i].height <= 0.4f)
+                        {
+                            waterList.Add(new Vector2((x) * 10f - 320f + 5f, (mapChunkSize - y) * 10f - 320f - 5f)); //Adding all waterTiles to waterList
+                        }
+
+                        if (regions[i].height >= 0.8f)
+                        {
+
+                            if (Random.value <= 0.025f)
+                            {
+                                boundsTest.SpawnTrees(mapChunkSize - x - 1, y + 1);
+                                //Debug.Log(x + "    " + y);
+                                //if (Random.Range(0,101) < 20)
+                                //{
+                                //Debug.Log(x + "    " + y);
+
+                                //}
+                            }
+                            if (Random.value <= 0.03f)
+                            {
+                                boundsTest.SpawnPlants(mapChunkSize - x - 1, y + 1);
+                            }
+                        }
 
                         //Spawning Plants on grass only
                         //TODO: Fix the alignment, blocks should be set left and top half the amount, see ingame
@@ -156,6 +169,15 @@ public class MapGenerator : MonoBehaviour
         }
        
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    foreach (var water in waterList)
+    //    {
+    //        Gizmos.DrawSphere(new Vector3(water.x, 0, water.y), 1f);
+    //        Debug.Log("DrawWater");
+    //    }
+    //}
 
     //Called when script variable is changed in inspector
     private void OnValidate()

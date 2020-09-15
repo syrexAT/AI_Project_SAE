@@ -33,6 +33,8 @@ public class StateMachineEntity : MonoBehaviour
         public override void Update()
         {
             //float bestDistance = Mathf.Infinity;
+            //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
+            //von allen pnktne kriegt man die distance,  --> genauso wie unten
 
         }
     }
@@ -208,21 +210,21 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
-    {
-        public override bool GetIsAllowed()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    //public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
+    //{
+    //    public override bool GetIsAllowed()
+    //    {
+    //        throw new System.NotImplementedException();
+    //    }
+    //}
 
-    public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
-    {
-        public override bool GetIsAllowed()
-        {
-            return !base.GetIsAllowed();
-        }
-    }
+    //public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
+    //{
+    //    public override bool GetIsAllowed()
+    //    {
+    //        return !base.GetIsAllowed();
+    //    }
+    //}
     #endregion
 
     private void Awake()
@@ -264,8 +266,8 @@ public class StateMachineEntity : MonoBehaviour
         //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
         stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
 
-        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
-        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
+        //stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
+        //stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
         #endregion
 
 

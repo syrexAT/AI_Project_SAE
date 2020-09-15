@@ -50,17 +50,17 @@ public class BoundsTest : MonoBehaviour
         //if (currentTrees <= numberOfTrees)
         //{
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
-        if (Physics.Raycast(new Vector3(-(x * 10f - 315f), 100f, -(y * 10f - 315f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag == "Plant" && hit.transform.tag == "Tree")
-            {
-                return;
-            }
-            else
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal")
             {
                 Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                //Debug.Log("Hit Point: " + hit.point);
             }
+            //else
+            //{
+
+            //    //Debug.Log("Hit Point: " + hit.point);
+            //}
         }
 
         //}
@@ -70,17 +70,17 @@ public class BoundsTest : MonoBehaviour
     {
         RaycastHit hit;
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
-        if (Physics.Raycast(new Vector3(-(x * 10f - 315f), 100f, -(y * 10f - 315f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag == "Plant" && hit.transform.tag == "Tree")
-            {
-                return;
-            }
-            else
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal")
             {
                 Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                //Debug.Log("Hit Point: " + hit.point);
             }
+            //else
+            //{
+
+            //    //Debug.Log("Hit Point: " + hit.point);
+            //}
 
         }
         else
