@@ -160,7 +160,7 @@ GameObject:
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 3
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
   m_IsActive: 0
 --- !u!114 &665812064
@@ -1235,6 +1235,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Predator
+      objectReference: {fileID: 0}
+    - target: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61565f480063d94f9db5f8afcb44fce, type: 3}
