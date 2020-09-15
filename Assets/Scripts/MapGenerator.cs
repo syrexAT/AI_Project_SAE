@@ -51,7 +51,7 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject tree;
 
-    public List<Vector2> waterList = new List<Vector2>();
+    public static List<Vector2> waterList = new List<Vector2>();
 
     public void GenerateMap()
     {
@@ -78,6 +78,7 @@ public class MapGenerator : MonoBehaviour
 
                         if (regions[i].height <= 0.4f)
                         {
+                            //* 10 weil tiles 10 groß sind, -320 weil alles verschieben, +5 um in den tilecenter zu kommen
                             waterList.Add(new Vector2((x) * 10f - 320f + 5f, (mapChunkSize - y) * 10f - 320f - 5f)); //Adding all waterTiles to waterList
                         }
 

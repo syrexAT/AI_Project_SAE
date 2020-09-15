@@ -2,7 +2,7 @@
 ---GENERATION---
 [X] Plants und Trees am mesh spawnen lassen mit raycast
 [X] StateMachineEntity ViewDistance checks ob Predator oder Plants in Range sind
-[] DAMN, die OnTrigger Functions die ich gemacht hab um Plants und Predators zu detecten funktionieren obviously nicht mit Wasser
+[X] DAMN, die OnTrigger Functions die ich gemacht hab um Plants und Predators zu detecten funktionieren obviously nicht mit Wasser
 das heißt man muss doch mit Overlapssphere arbeiten, oder irgendwie der Entity die Wasserpositions mittteilen, und dann in einer Range abfragen (ViewDistance von der Entitity)
 ob er Wasser sieht, wenn ja soll er mit den schnellste path zum Wasser gehen
 Vielleicht detectbar damit, weil es nicht Walkable/Hohe cost hat? maybe ein workaround -- Adrian fragen!
@@ -13,7 +13,7 @@ Vielleicht detectbar damit, weil es nicht Walkable/Hohe cost hat? maybe ein work
 
 ---STATE MACHINE/AI---
 [] Transitions einfügen für Tiere
-[] States + Transitions einfügen für Predator
+[] States + Transitions einfügen für Predator, für predator einen neuen script so wie statemachineentity erstellen
 [] HUNGER/Durst einbauen sonst gehen die Transitions/States garnicht, weil wenn mehr Hunger --> Zur pflanze, wenn mehr Durst --> Zu wasser (ANIMAL SCRIPT?)
 [] Predators müssen auch Durst haben und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, tieren nachrennen sollte thirst verursachen
 [] wenn Predator nachläuft used er Energy, wenn er keine mehr hat entkommt das Tier

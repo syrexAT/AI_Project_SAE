@@ -23,6 +23,7 @@ public class StateMachineEntity : MonoBehaviour
 
     public List<GameObject> plantsInRange = new List<GameObject>(); //Static weil ich sonst nicht im SearchFoodState unter Update drauf zugreifen kann
     public List<GameObject> predatorInRange = new List<GameObject>();
+    public List<Vector2> waterInRange = new List<Vector2>();
 
 
     #region States
@@ -32,10 +33,34 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Update()
         {
+            //Find Water in View Distance
+            foreach (var water in MapGenerator.waterList)
+            {
+                if (Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position) <= objectReference.viewDistance)
+                {
+                    objectReference.waterInRange.Add(water);
+                }
+            }
             //float bestDistance = Mathf.Infinity;
             //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
             //von allen pnktne kriegt man die distance,  --> genauso wie unten
 
+            float bestDistance = Mathf.Infinity; //glaub ich?
+            Vector2 bestWater = Vector2.zero;
+            foreach (var water in objectReference.waterInRange)
+            {
+                float dist = Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position);
+                if (dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    bestWater = water;
+                }
+            }
+
+            if (bestWater != Vector2.zero)
+            {
+                objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y)); //Vector3?
+            }
         }
     }
 
