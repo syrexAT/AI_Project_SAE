@@ -35,8 +35,8 @@ Der Consumespeed passt nicht, wenn er viel hunger hat reduziert er die plantsize
 
 16.09.2020
 Animal statemachine zum funktionieren bringen:
-Wenn Tier mehr Hunger als durst hat, zur nähesten Pflanze in Range gehen, eine duration lang essen(+hunger reducen + pflanze schrumpfen), dann wieder ready sein zum state switchen (probably searchwater, bzw. er geht dazwischen immer in WanderAround)
-Wenn Tier mehr Durst als Hunger hat, zur nähesten Wasserstelle in Range gehen, eine duration lang trinekn(+ durst reducen), dann wieder ready sein zum state switchen (probably SearchFood, bzw. er geht dazwischen immer in WanderAround)
+(sollte nicht so schwer sein)Wenn Tier mehr Hunger als durst hat, zur nähesten Pflanze in Range gehen, eine duration lang essen(+hunger reducen + pflanze schrumpfen), dann wieder ready sein zum state switchen (probably searchwater, bzw. er geht dazwischen immer in WanderAround)
+(sollte nicht so schwer sein)Wenn Tier mehr Durst als Hunger hat, zur nähesten Wasserstelle in Range gehen, eine duration lang trinekn(+ durst reducen), dann wieder ready sein zum state switchen (probably SearchFood, bzw. er geht dazwischen immer in WanderAround)
 [X]Wenn Predator in der Nähe ist den prioritzen und EvadePredator machen
 
 

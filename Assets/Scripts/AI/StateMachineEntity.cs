@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using TMPro;
 
 //STATE MACHINE FOR ANIMAL(RABBIT)
 public class StateMachineEntity : MonoBehaviour
@@ -28,12 +30,27 @@ public class StateMachineEntity : MonoBehaviour
 
     public Animal animal;
 
+    public float drinkTime;
+    public float drinkRemainingTime;
+
+    public bool drinkTimesUp;
+    public bool drinkTimerIsRunning = false;
+    public bool drinkTimerIsUp = false;
+
+    public TextMeshProUGUI stateText;
+
 
     #region States
     //Need to detect water tiles, they have a noise float below 0.4 (see inspector -> MapGenerator)
     //Get an array/list? of all water tiles in view Distance, go to nearest one
     public class SearchWaterState : State<StateMachineEntity>
     {
+        public override void Entered()
+        {
+            objectReference.drinkTimesUp = false;
+            objectReference.drinkTime = Time.time;
+        }
+
         public override void Update()
         {
             //Find Water in View Distance --> gehört wo anders hin? weil er hierfür in dem state sein muss
@@ -441,6 +458,7 @@ public class StateMachineEntity : MonoBehaviour
     {
         stateMachine.Update();
         ViewDistanceCheck();
+        stateText.SetText(stateMachine.currentState.ToString());
         Debug.Log("States " + stateMachine.currentState);
         Debug.Log("Transitions " + stateMachine.currentTransitions);
         //foreach (var water in MapGenerator.waterList)
