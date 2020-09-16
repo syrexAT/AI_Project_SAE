@@ -277,8 +277,8 @@ public class StateMachineEntity : MonoBehaviour
                         if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
                         {
                             //here he reached the destination/waterTile
-                            if (objectReference.animal.hunger > 0)
-                            {
+                            //if (objectReference.animal.hunger > 0)
+                            //{
                                 objectReference.eatTime += Time.deltaTime;
                                 float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
                                 PlantScript foodTarget;
@@ -292,7 +292,7 @@ public class StateMachineEntity : MonoBehaviour
                                     bestPlant = null;
                                 }
 
-                            }
+                            //}
                         }
                     }
                 }

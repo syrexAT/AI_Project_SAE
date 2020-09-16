@@ -53,4 +53,5 @@ STATEMACHINE MIT DRINK UND EAT MACHEN, dann stuckt er nicht so
 ERROR: statemachine scheint zu worken, einziges was man beheben musst, wenn er isst und schon hunger auf 0 ist soll  er aufhören und state wechseln + genau das gleiche bei water
 vielleicht erst recht garkeine fixed time oder halt sagen diese 6 sekunden wasser trinken(wenn er so viel durst hat), ODER wenn durst auf 0 ist dann auch aufhören
 ERROR: Randomly isst alle plants die in view distance sind wenn sein hunger groß genug ist! ohne das er zu den pflanzen hingeht, z.B. hat mehr hunger als durst --> Findet enie pflanze --> isst sie --> hunger is nochimmer da --> isst andere pflanzen in view distance ohne sich dorthin zubewegen bis sein hunger auf 0 ist!
-
+Trinkt Wasser ohne beim path zu sein nachdem er mit EatFood fertig ist
+erkennt wassertiles nicht, (so wie das problem war mit weils ein Vector2 war, haben wir dann aber gefixt das wir es zu einem Vector3 gemachthaben weil die Z achse ja sonst fehlt!)
