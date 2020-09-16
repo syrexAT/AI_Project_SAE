@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class BoundsTest : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     public Renderer r;
     public GameObject tree;

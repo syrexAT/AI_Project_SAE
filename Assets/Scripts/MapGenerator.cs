@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject plant;
 
-    public BoundsTest boundsTest;
+    public Spawner spawner;
 
     float randomX;
     float randomZ;
@@ -94,7 +94,7 @@ public class MapGenerator : MonoBehaviour
 
                             if (Random.value <= 0.025f)
                             {
-                                boundsTest.SpawnTrees(mapChunkSize - x - 1, y + 1);
+                                spawner.SpawnTrees(mapChunkSize - x - 1, y + 1);
                                 //Debug.Log(x + "    " + y);
                                 //if (Random.Range(0,101) < 20)
                                 //{
@@ -104,7 +104,7 @@ public class MapGenerator : MonoBehaviour
                             }
                             if (Random.value <= 0.03f)
                             {
-                                boundsTest.SpawnPlants(mapChunkSize - x - 1, y + 1);
+                                spawner.SpawnPlants(mapChunkSize - x - 1, y + 1);
                             }
                         }
 

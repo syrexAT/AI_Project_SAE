@@ -74,8 +74,11 @@ public class StateMachineEntity : MonoBehaviour
                             {
                                 Debug.Log("Inside Drinking");
                                 Debug.Log(objectReference.agent.velocity.sqrMagnitude);
+
                                 objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
                                 objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
+
+                                Debug.Log(Time.deltaTime * 1 / objectReference.animal.drinkDuration);
                             }
                         }
                     }
@@ -149,8 +152,8 @@ public class StateMachineEntity : MonoBehaviour
                                 PlantScript foodTarget;
                                 foodTarget = bestPlant.GetComponent<PlantScript>();
                                 eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
-                                objectReference.animal.hunger -= Time.deltaTime * 1 / objectReference.animal.eatDuraton;
-                                objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
+                                objectReference.animal.hunger -= eatAmount;
+                                //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
                                 if (foodTarget.AmountRemaining <= 0)
                                 {
                                     bestPlant = null;
@@ -327,7 +330,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 //zur nähesten pflanze gehen
                 float distance = Vector3.Distance(objectReference.transform.position, bestPlant.transform.position);
-                return distance < objectReference.viewDistance && objectReference.animal.moreHungry; //Testing it with the && statement
+                return distance < objectReference.viewDistance;/* && objectReference.animal.moreHungry;*/ //Testing it with the && statement
             }
 
             return false;
@@ -420,11 +423,11 @@ public class StateMachineEntity : MonoBehaviour
         /*stateMachine.AddTransition(new FoodInRangeTransition() { objectReference = this }, "SearchWater", "SearchFood");*/ //wenn er den hunger hat kann er direkt von SearchWater zu SearchFood WENN eine pflanze in range ist
 
         //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
-        stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
+        stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
         //stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");
 
         stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
-        /*stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater");*/ //wenn er direkt water in view distance hat (und durst hat)
+        stateMachine.AddTransition(new WaterOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er direkt water in view distance hat (und durst hat)
 
         /*stateMachine.AddTransition(new WaterOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");*/ // Bei dem moved er dann garnichtmehr bei Gamestart
         #endregion

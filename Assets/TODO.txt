@@ -26,3 +26,17 @@ Color gradients einfügen für mesh (start end color statt nur color, siehe Lague 
 SEARCHWATER/FOOD unterteilen
 State --> den nähesten suchen und hingehen
 wenn angekommen DrinkWater /EatFood state wo er consumed mit der duration, hunger/durst runter geht und sobald er fertig ist den state wechselt zu mehr thirsty -> SearchWater oder hunger -> SearchFood
+
+
+FEHLER:
+Der Consumespeed passt nicht, wenn er viel hunger hat reduziert er die plantsize schnell(consumed) sie schnell, wenn es dann auf 0 ist und nur leicht wieder hochgeht weil die ja konstnat steigt isst er sie langsam, also irgendwo hab ich falsche parameter zum essenspeed angegeben
+
+(nvm würde eh gehen wenn er so lange im state bleibt wie eatDuration/drinkduration ist)wenn ich das mit moreHungry / thirsty mach dann wird er ja während er isst oder zum essen geht oder trinkt oder zum trinken geht, in eine andere state transitionen, er sollte wenn 1 mal der hunger größer als durst ist 1 mal das searchfood ausführen und dann wieder detecten ob hunger/thirst größer kleiner ist
+
+16.09.2020
+Animal statemachine zum funktionieren bringen:
+Wenn Tier mehr Hunger als durst hat, zur nähesten Pflanze in Range gehen, eine duration lang essen(+hunger reducen + pflanze schrumpfen), dann wieder ready sein zum state switchen (probably searchwater, bzw. er geht dazwischen immer in WanderAround)
+Wenn Tier mehr Durst als Hunger hat, zur nähesten Wasserstelle in Range gehen, eine duration lang trinekn(+ durst reducen), dann wieder ready sein zum state switchen (probably SearchFood, bzw. er geht dazwischen immer in WanderAround)
+[X]Wenn Predator in der Nähe ist den prioritzen und EvadePredator machen
+
+
