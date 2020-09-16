@@ -6,7 +6,7 @@ public class Animal : MonoBehaviour
 {
     public float thirst;
     public float hunger;
-    public float timeToDeathByThirst = 100;
+    public float timeToDeathByThirst = 10;
     public float timeToDeathByHunger = 200;
 
     public bool moreHungry = false;

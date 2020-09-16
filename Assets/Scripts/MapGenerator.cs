@@ -52,7 +52,14 @@ public class MapGenerator : MonoBehaviour
     public GameObject tree;
 
     public static List<Vector2> waterList = new List<Vector2>();
-
+    public static MapGenerator instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     public void GenerateMap()
     {
         waterList.Clear();
@@ -171,13 +178,18 @@ public class MapGenerator : MonoBehaviour
        
     }
 
+    public Vector3 GetAbsolutePosition(int x, int y)
+    {
+        return new Vector3((x) * 10f - 320f + 5f, 0f, (mapChunkSize - y) * 10f - 320f - 5f);
+    }
+
     //private void OnDrawGizmos()
     //{
     //    foreach (var water in waterList)
     //    {
     //        Gizmos.DrawSphere(new Vector3(water.x, 0, water.y), 1f);
     //        Debug.Log("DrawWater");
-            
+
     //    }
     //}
 

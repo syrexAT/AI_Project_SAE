@@ -42,6 +42,7 @@ public class StateMachineEntity : MonoBehaviour
             //float bestDistance = Mathf.Infinity;
             //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
             //von allen pnktne kriegt man die distance,  --> genauso wie unten
+            Debug.Log("WaterInRange: " + objectReference.waterInRange);
 
             float bestDistance = Mathf.Infinity; //glaub ich?
             Vector2 bestWater = Vector2.zero;
@@ -57,8 +58,28 @@ public class StateMachineEntity : MonoBehaviour
 
             if (bestWater != Vector2.zero)
             {
+                Debug.Log("before SetDestination");
                 objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y)); //Vector3?
+                Debug.Log("After SetDestination");
+                if (!objectReference.agent.pathPending)
+                {
+                    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
+                    {
+                        if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
+                        {
+                            //here he reached the destination/waterTile
+                            if (objectReference.animal.thirst > 0)
+                            {
+                                Debug.Log("Inside Drinking");
+                                Debug.Log(objectReference.agent.velocity.sqrMagnitude);
+                                objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
+                                objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
+                            }
+                        }
+                    }
+                }
             }
+            Debug.Log("WaterInRange: " + objectReference.waterInRange);
 
             Debug.Log(objectReference.agent.velocity.sqrMagnitude);
         }
@@ -96,11 +117,14 @@ public class StateMachineEntity : MonoBehaviour
             GameObject bestPlant = null; //bestPlant = closest plant
             foreach (var plant in objectReference.plantsInRange)
             {
-                float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-                if (dist < bestDistance)
+                if (plant != null)
                 {
-                    bestDistance = dist;
-                    bestPlant = plant;
+                    float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        bestPlant = plant;
+                    }
                 }
             }
 
@@ -125,6 +149,10 @@ public class StateMachineEntity : MonoBehaviour
                                 eatAmount = foodTarget.Consume(eatAmount);
                                 objectReference.animal.hunger -= Time.deltaTime * 1 / objectReference.animal.eatDuraton;
                                 objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
+                                if (foodTarget.AmountRemaining <= 0)
+                                {
+                                    bestPlant = null;
+                                }
                             }
                         }
                     }
@@ -290,7 +318,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 //zur nähesten pflanze gehen
                 float distance = Vector3.Distance(objectReference.transform.position, bestPlant.transform.position);
-                return distance < objectReference.viewDistance;
+                return distance < objectReference.viewDistance && objectReference.animal.moreHungry; //Testing it with the && statement
             }
 
             return false;
@@ -325,7 +353,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 /*objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y));*/ //Vector3?
                 float distance = Vector3.Distance(objectReference.transform.position, bestWater);
-                return distance < objectReference.viewDistance;
+                return distance < objectReference.viewDistance && objectReference.animal.moreThirsty;
             }
 
             return false;
@@ -386,9 +414,9 @@ public class StateMachineEntity : MonoBehaviour
         stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
 
         stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
-        stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater"); //wenn er direkt water in view distance hat (und durst hat)
+        /*stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater");*/ //wenn er direkt water in view distance hat (und durst hat)
 
-        //stateMachine.AddTransition(new WaterOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround"); // Bei dem moved er dann garnichtmehr bei Gamestart
+        /*stateMachine.AddTransition(new WaterOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");*/ // Bei dem moved er dann garnichtmehr bei Gamestart
         #endregion
 
 

@@ -19,7 +19,7 @@ public class PlantScript : MonoBehaviour
         float amountConsumed = Mathf.Max(0, Mathf.Min(amountRemaining, amount)); //amount is the amount the animal needs to eat before reaching 0 on hunger level
         amountRemaining -= amount * consumeSpeed;
 
-        transform.localScale = Vector3.one * amountRemaining;
+        transform.localScale = new Vector3(10, 10, 10) * amountRemaining;
 
         if (amountRemaining <= 0)
         {
@@ -29,11 +29,11 @@ public class PlantScript : MonoBehaviour
         return amountConsumed;
     }
 
-    //public float AmountRemaining
-    //{
-    //    get
-    //    {
-    //        return amountRemaining;
-    //    }
-    //}
+    public float AmountRemaining
+    {
+        get
+        {
+            return amountRemaining;
+        }
+    }
 }

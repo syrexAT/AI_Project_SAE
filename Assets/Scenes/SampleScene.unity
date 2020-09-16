@@ -804,7 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thirst: 100
   hunger: 100
-  timeToDeathByThirst: 200
+  timeToDeathByThirst: 300
   timeToDeathByHunger: 200
   moreHungry: 0
   moreThirsty: 0
@@ -1461,6 +1461,11 @@ PrefabInstance:
     - target: {fileID: 8429396983511418609, guid: ccae484cf72fb2941bdad0d489e293be,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429396983511418610, guid: ccae484cf72fb2941bdad0d489e293be,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8429396983511418611, guid: ccae484cf72fb2941bdad0d489e293be,
