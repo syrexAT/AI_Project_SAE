@@ -43,12 +43,14 @@ public class StateMachineEntity : MonoBehaviour
             //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
             //von allen pnktne kriegt man die distance,  --> genauso wie unten
             Debug.Log("WaterInRange: " + objectReference.waterInRange);
+            Debug.Log("IN SEARCHWATERSTATE");
 
             float bestDistance = Mathf.Infinity; //glaub ich?
-            Vector2 bestWater = Vector2.zero;
+            Vector3 bestWater = Vector3.zero;
             foreach (var water in objectReference.waterInRange)
             {
-                float dist = Vector3.Distance(new Vector2(water.x, water.y), objectReference.transform.position);
+                Debug.Log("IN SEARCHWATERSTATE");
+                float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), objectReference.transform.position);
                 if (dist < bestDistance)
                 {
                     bestDistance = dist;
@@ -56,10 +58,10 @@ public class StateMachineEntity : MonoBehaviour
                 }
             }
 
-            if (bestWater != Vector2.zero)
+            if (bestWater != Vector3.zero)
             {
                 Debug.Log("before SetDestination");
-                objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y)); //Vector3?
+                objectReference.agent.SetDestination(new Vector3(bestWater.x, 0, bestWater.y)); //Vector3?
                 Debug.Log("After SetDestination");
                 if (!objectReference.agent.pathPending)
                 {
@@ -81,7 +83,7 @@ public class StateMachineEntity : MonoBehaviour
             }
             Debug.Log("WaterInRange: " + objectReference.waterInRange);
 
-            Debug.Log(objectReference.agent.velocity.sqrMagnitude);
+            //Debug.Log(objectReference.agent.velocity.sqrMagnitude);
         }
     }
 
@@ -146,7 +148,7 @@ public class StateMachineEntity : MonoBehaviour
                                 float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
                                 PlantScript foodTarget;
                                 foodTarget = bestPlant.GetComponent<PlantScript>();
-                                eatAmount = foodTarget.Consume(eatAmount);
+                                eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
                                 objectReference.animal.hunger -= Time.deltaTime * 1 / objectReference.animal.eatDuraton;
                                 objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
                                 if (foodTarget.AmountRemaining <= 0)
@@ -268,11 +270,14 @@ public class StateMachineEntity : MonoBehaviour
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
             foreach (var predator in objectReference.predatorInRange) //to find out which predator is the nearest
             {
-                float dist = Vector3.Distance(objectReference.transform.position, predator.transform.position);
-                if (dist < bestDistance)
+                if (predator != null)
                 {
-                    bestDistance = dist;
-                    bestPredator = predator;
+                    float dist = Vector3.Distance(objectReference.transform.position, predator.transform.position);
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        bestPredator = predator;
+                    }
                 }
             }
 
@@ -306,12 +311,16 @@ public class StateMachineEntity : MonoBehaviour
             GameObject bestPlant = null; //bestPlant = closest plant
             foreach (var plant in objectReference.plantsInRange)
             {
-                float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-                if (dist < bestDistance)
+                if (plant != null)
                 {
-                    bestDistance = dist;
-                    bestPlant = plant;
+                    float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        bestPlant = plant;
+                    }
                 }
+
             }
 
             if (bestPlant != null && (objectReference.animal.moreHungry/*|| objectReference.animal.criticalPercent > objectReference.animal.hunger*/))
@@ -403,7 +412,7 @@ public class StateMachineEntity : MonoBehaviour
         stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "WanderAround", "EvadePredator");
         stateMachine.AddTransition(new PredatorInRangeTransition() { objectReference = this }, "Idle", "EvadePredator"); //may be removed
 
-        stateMachine.AddTransition(new PredatorOutOfRangeTransition() { objectReference = this }, "EvadePredator", "Idle"); //may be removed, idle is the wanderAround state probably
+        /*stateMachine.AddTransition(new PredatorOutOfRangeTransition() { objectReference = this }, "EvadePredator", "Idle");*/ //may be removed, idle is the wanderAround state probably
         stateMachine.AddTransition(new PredatorOutOfRangeTransition() { objectReference = this }, "EvadePredator", "WanderAround");
 
         //wenn mehr durst als hunger und kein wasser in sicht, befindet er sich in WanderAround und wenn wasser in Sicht macht er SearchWater
@@ -412,6 +421,7 @@ public class StateMachineEntity : MonoBehaviour
 
         //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
         stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchWater", "WanderAround"); //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
+        //stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");
 
         stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "WanderAround", "SearchWater"); //wenn es nicht in range war und er wandered und findet wasser --> dann searchWater
         /*stateMachine.AddTransition(new WaterInRangeTransition() { objectReference = this }, "SearchFood", "SearchWater");*/ //wenn er direkt water in view distance hat (und durst hat)

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Animal : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class Animal : MonoBehaviour
 
     public float moveSpeed;
 
+    public Image hungerBar;
+    public Image thirstBar;
+
     private void Start()
     {
         
@@ -32,6 +37,8 @@ public class Animal : MonoBehaviour
         hunger += Time.deltaTime * 1 / timeToDeathByHunger;
         thirst += Time.deltaTime * 1 / timeToDeathByThirst;
 
+        hungerBar.fillAmount = hunger;
+        thirstBar.fillAmount = thirst;
         //Destroy/Die gameobject when hunger/thirst is >= 1
 
         if (hunger >= thirst)
