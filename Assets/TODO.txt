@@ -39,4 +39,12 @@ Animal statemachine zum funktionieren bringen:
 (sollte nicht so schwer sein)Wenn Tier mehr Durst als Hunger hat, zur nähesten Wasserstelle in Range gehen, eine duration lang trinekn(+ durst reducen), dann wieder ready sein zum state switchen (probably SearchFood, bzw. er geht dazwischen immer in WanderAround)
 [X]Wenn Predator in der Nähe ist den prioritzen und EvadePredator machen
 
+Wann soll er in SearchWater sein?
+wenn er mehr durst als hunger hat
+
+
+STATEMACHINE MIT DRINK UND EAT MACHEN, dann stuckt er nicht so
++ einfügen das er entweder die ganze pflanze isst immer
++ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist
++ einfügen das wenn er isst solange bis pflanze weg ist, wenn er dann immernoch hunger hat sucht er weiter food wenn nicht sucht er wieder wasser
 

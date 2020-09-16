@@ -68,6 +68,16 @@ public class ViewDistanceScript : MonoBehaviour
         }
     }
 
+    //public static GameObject FindClosestPlant()
+    //{
+
+    //}
+
+    //public static Vector3 FindClosesetWaterTile()
+    //{
+
+    //}
+
     //private void OnTriggerEnter(Collider other)
     //{
     //    if (other.gameObject.tag == "Plant")

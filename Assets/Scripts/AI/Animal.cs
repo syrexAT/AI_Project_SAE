@@ -24,6 +24,9 @@ public class Animal : MonoBehaviour
 
     public float moveSpeed;
 
+    public bool isDrinking;
+    public bool isEating;
+
     public Image hungerBar;
     public Image thirstBar;
 
