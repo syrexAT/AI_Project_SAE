@@ -48,3 +48,8 @@ STATEMACHINE MIT DRINK UND EAT MACHEN, dann stuckt er nicht so
 + einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist
 + einfügen das wenn er isst solange bis pflanze weg ist, wenn er dann immernoch hunger hat sucht er weiter food wenn nicht sucht er wieder wasser
 
+
+19:35
+ERROR: statemachine scheint zu worken, einziges was man beheben musst, wenn er isst und schon hunger auf 0 ist soll  er aufhören und state wechseln + genau das gleiche bei water
+vielleicht erst recht garkeine fixed time oder halt sagen diese 6 sekunden wasser trinken(wenn er so viel durst hat), ODER wenn durst auf 0 ist dann auch aufhören
+
