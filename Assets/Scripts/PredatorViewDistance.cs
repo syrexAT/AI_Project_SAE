@@ -8,7 +8,7 @@ public class PredatorViewDistance : MonoBehaviour
 
     private void Awake()
     {
-        predator = GetComponent<PredatorEntity>();
+        predator = GetComponentInParent<PredatorEntity>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,14 +21,22 @@ public class PredatorViewDistance : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        predator.animalsInRange.Add(other.gameObject);
+        if (other.gameObject.tag == "Animal")
+        {
+            if (other != null)
+            {
+                predator.animalsInRange.Remove(other.gameObject);
+            }
+
+        }
+
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

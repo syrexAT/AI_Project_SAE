@@ -107,57 +107,8 @@ public class MapGenerator : MonoBehaviour
                                 spawner.SpawnPlants(mapChunkSize - x - 1, y + 1);
                             }
                         }
-
-                        //Spawning Plants on grass only
-                        //TODO: Fix the alignment, blocks should be set left and top half the amount, see ingame
-                        //FIXED: line above, but only for 64 chunksize
-
-                        //boundsTest.SpawnTrees(regions[i].height);
-
-                        //if (regions[i].height >= 0.8f)
-                        //{
-                        //    if (Random.value <= 0.5f)
-                        //    {
-                        //        if (currentTrees <= numberOfTrees)
-                        //        {
-                        //            RaycastHit hit;
-                        //            if (Physics.Raycast(new Vector3(x, y), -Vector3.up, out hit))
-                        //            {
-                        //                Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
-                        //                currentTrees += 1;
-                        //            }
-                        //        }
-
-
-                        //    }
-                        //}
-
-
-
-
-                        //if (regions[i].height >= 0.8f)
-                        //{
-                        //    if (Random.value <= 0.025f)
-                        //    {
-                        //        Instantiate(plant, new Vector3(-(x * 10 - 315), 2, -(y * 10 - 315)), Quaternion.identity);
-                        //    }
-                        //}
-
-
-
-                        //if (regions[i].height >= 0.8f)
-                        //{
-
-                        //}
-
                         break;
                     }
-
-                    //float chunkX = Random.Range((float)x / (float)mapChunkSize, (float)(x + 1) / (float)mapChunkSize);
-                    //float chunkY = Random.Range((float)y / (float)mapChunkSize, (float)(y + 1) / (float)mapChunkSize);
-
-
-
                 }
             }
         }

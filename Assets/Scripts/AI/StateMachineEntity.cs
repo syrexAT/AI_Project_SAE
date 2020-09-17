@@ -47,6 +47,9 @@ public class StateMachineEntity : MonoBehaviour
 
     public TextMeshProUGUI stateText;
 
+    public Vector3 nextFoodDestination;
+    public Vector3 nextWaterDestination;
+
 
     #region States
     //Need to detect water tiles, they have a noise float below 0.4 (see inspector -> MapGenerator)
@@ -71,14 +74,14 @@ public class StateMachineEntity : MonoBehaviour
             //float bestDistance = Mathf.Infinity;
             //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
             //von allen pnktne kriegt man die distance,  --> genauso wie unten
-            Debug.Log("WaterInRange: " + objectReference.waterInRange);
-            Debug.Log("IN SEARCHWATERSTATE");
+            //Debug.Log("WaterInRange: " + objectReference.waterInRange);
+            //Debug.Log("IN SEARCHWATERSTATE");
 
             float bestDistance = Mathf.Infinity; //glaub ich?
             Vector3 bestWater = Vector3.zero;
             foreach (var water in objectReference.waterInRange)
             {
-                Debug.Log("IN SEARCHWATERSTATE");
+                //Debug.Log("IN SEARCHWATERSTATE");
                 float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), objectReference.transform.position);
                 if (dist < bestDistance)
                 {
@@ -90,6 +93,8 @@ public class StateMachineEntity : MonoBehaviour
             if (bestWater != Vector3.zero)
             {
                 objectReference.agent.SetDestination(new Vector3(bestWater.x, 0, bestWater.y)); //Vector3?
+                objectReference.nextWaterDestination = new Vector3(bestWater.x, 0, bestWater.y);
+                Debug.Log("SetDestination" + new Vector3(bestWater.x, 0, bestWater.y));
                 //if (!objectReference.agent.pathPending)
                 //{
                 //    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
@@ -118,7 +123,7 @@ public class StateMachineEntity : MonoBehaviour
                 //    }
                 //}
             }
-            Debug.Log("WaterInRange: " + objectReference.waterInRange);
+            //Debug.Log("WaterInRange: " + objectReference.waterInRange);
 
             //Debug.Log(objectReference.agent.velocity.sqrMagnitude);
         }
@@ -152,10 +157,13 @@ public class StateMachineEntity : MonoBehaviour
             
             if (!objectReference.agent.pathPending)
             {
+                Debug.Log(Vector3.Distance(objectReference.transform.position, objectReference.nextWaterDestination));
                 if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
                 {
+                    Debug.Log(objectReference.agent.remainingDistance);
                     if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
                     {
+                        Debug.Log("Path reached");
                         //here he reached the destination/waterTile
                         if (objectReference.animal.thirst > 0)
                         {
@@ -185,6 +193,7 @@ public class StateMachineEntity : MonoBehaviour
         public override void Exited()
         {
             objectReference.finishedDrinking = false;
+            objectReference.drinkTime = 0;
         }
 
     }
@@ -214,6 +223,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 //zur nähesten pflanze gehen
                 objectReference.agent.SetDestination(bestPlant.transform.position);
+                Debug.Log("SetDestination" + bestPlant.transform.position);
                 //hier food essen, code ausführen das pflanze kleiner wird und dann deleted wird und er währenddessen isst
 
                 //if (!objectReference.agent.pathPending)
@@ -272,10 +282,13 @@ public class StateMachineEntity : MonoBehaviour
             {
                 if (!objectReference.agent.pathPending)
                 {
+                    Debug.Log("FoodRemainingDistance" + objectReference.agent.remainingDistance);
                     if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
                     {
+
                         if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
                         {
+                            Debug.Log("PathreachedFood");
                             //here he reached the destination/waterTile
                             //if (objectReference.animal.hunger > 0)
                             //{
@@ -303,6 +316,7 @@ public class StateMachineEntity : MonoBehaviour
         public override void Exited()
         {
             objectReference.finishedEating = false;
+            objectReference.eatTime = 0;
         }
     }
 
@@ -370,7 +384,7 @@ public class StateMachineEntity : MonoBehaviour
 
             if (timer >= wanderTimer)
             {
-                Vector3 newPos = RandomNavSphere(objectReference.transform.position, wanderRadius, -1);
+                Vector3 newPos = Helper.RandomNavSphere(objectReference.transform.position, wanderRadius, -1);
                 objectReference.agent.SetDestination(newPos);
                 timer = 0;
             }
@@ -735,8 +749,6 @@ public class StateMachineEntity : MonoBehaviour
         stateMachine.AddTransition(new AtWaterSourceTransition() { objectReference = this }, "SearchWater", "DrinkWater");
         /*stateMachine.AddTransition(new WaterOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");*/ // Bei dem moved er dann garnichtmehr bei Gamestart
         #endregion
-
-
     }
 
     
@@ -817,16 +829,16 @@ public class StateMachineEntity : MonoBehaviour
     }
 
 
-    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
-    {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
-        randDirection += origin;
+    //public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    //{
+    //    Vector3 randDirection = Random.insideUnitSphere * dist;
+    //    randDirection += origin;
 
-        NavMeshHit navHit;
+    //    NavMeshHit navHit;
 
-        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+    //    NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
 
-        return navHit.position;
-    }
+    //    return navHit.position;
+    //}
 
 }
