@@ -104,30 +104,21 @@ public class StateMachineEntity : MonoBehaviour
     //Sollte funktionieren, es muss noch hunger eingefügt werden
     public class SearchFoodState : State<StateMachineEntity>
     {
-        public override void Update()
+        public override void Entered()
         {
-            float bestDistance = Mathf.Infinity;
-            GameObject bestPlant = null; //bestPlant = closest plant
-            foreach (var plant in objectReference.plantsInRange)
-            {
-                if (plant != null)
-                {
-                    float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-                    if (dist < bestDistance)
-                    {
-                        bestDistance = dist;
-                        bestPlant = plant;
-                    }
-                }
-            }
-            Debug.Log(bestPlant);
+            objectReference.animal.currentlyBestPlant = objectReference.animal.FindClosestPlant();
 
-            if (bestPlant != null)
+            if (objectReference.animal.currentlyBestPlant != null)
             {
                 //zur nähesten pflanze gehen
-                objectReference.agent.SetDestination(bestPlant.transform.position);
-                Debug.Log("SetDestination" + bestPlant.transform.position);
+                objectReference.agent.SetDestination(objectReference.animal.currentlyBestPlant.transform.position);
+                Debug.Log("SetDestination" + objectReference.animal.currentlyBestPlant.transform.position);
             }
+        }
+
+        public override void Update()
+        {
+
         }
     }
 
@@ -135,68 +126,50 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Entered()
         {
-            objectReference.finishedEating = false;
-            objectReference.eatTime = 0;
+            //objectReference.finishedEating = false;
+            //objectReference.eatTime = 0;
         }
 
         public override void Update()
         {
-            float bestDistance = Mathf.Infinity;
-            GameObject bestPlant = null; //bestPlant = closest plant
-            foreach (var plant in objectReference.plantsInRange)
-            {
-                if (plant != null)
-                {
-                    float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-                    if (dist < bestDistance)
-                    {
-                        bestDistance = dist;
-                        bestPlant = plant;
-                    }
-                }
-            }
+            //Debug.Log("PathreachedFood");
+            //objectReference.eatTime += Time.deltaTime;
+            //float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
+            //PlantScript foodTarget;
+            //if (objectReference.animal.currentlyBestPlant != null)
+            //{
+            //    foodTarget = objectReference.animal.currentlyBestPlant.GetComponent<PlantScript>();
+            //    if (foodTarget != null)
+            //    {
+            //        eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
+            //        objectReference.animal.hunger -= eatAmount;
+            //        //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
 
-            if (bestPlant != null)
-            {
-                if (!objectReference.agent.pathPending)
-                {
-                    Debug.Log("FoodRemainingDistance" + objectReference.agent.remainingDistance);
-                    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-                    {
+            //        //IF KÖNNTE FALSCH SEIN, VIELLEICHT EINFACH DELETEN???
+            //        if (/*foodTarget.AmountRemaining <= 0 || */objectReference.eatTime >= objectReference.animal.eatDuraton)
+            //        {
+            //            objectReference.finishedEating = true;
+            //            objectReference.animal.currentlyBestPlant = null;
+            //        }
+            //    }
+            //}
 
-                        if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                        {
-                            Debug.Log("PathreachedFood");
-                            //here he reached the destination/waterTile
-                            //if (objectReference.animal.hunger > 0)
-                            //{
-                            objectReference.eatTime += Time.deltaTime;
-                            float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
-                            PlantScript foodTarget;
-                            foodTarget = bestPlant.GetComponent<PlantScript>();
-                            eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
-                            objectReference.animal.hunger -= eatAmount;
-                            //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
-                            if (/*foodTarget.AmountRemaining <= 0 || */objectReference.eatTime >= objectReference.animal.eatDuraton)
-                            {
-                                objectReference.finishedEating = true;
-                                bestPlant = null;
-                            }
+            Debug.Log("Inside Drinking");
+            objectReference.animal.hunger -= Time.deltaTime * 1 / objectReference.animal.eatDuraton;
+            objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
 
-                            //}
-                        }
-                    }
-                }
-            }
+
+
+
 
         }
 
-        public override void Exited()
-        {
-            objectReference.finishedEating = false;
-            objectReference.eatTime = 0;
-        }
+        //public override void Exited()
+        //{
+        //    objectReference.animal.currentlyBestPlant = null;
+        //}
     }
+
 
     //Vielleicht auch ander lösbar https://answers.unity.com/questions/868003/navmesh-flee-ai-flee-from-player.html
     //Muss so gemacht werden das predator aufjedenfall das tier einholt vom moveSpeed her
@@ -221,7 +194,7 @@ public class StateMachineEntity : MonoBehaviour
             if (bestPredator != null) //wenn er den nähesten gefunden hat
             {
                 float distance = Vector3.Distance(objectReference.transform.position, bestPredator.transform.position); //distance between predator and animal
-                //Debug.Log("Distance: " + distance);
+                                                                                                                        //Debug.Log("Distance: " + distance);
 
                 if (distance < objectReference.viewDistance)
                 {
@@ -317,41 +290,48 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            float bestDistance = Mathf.Infinity;
-            GameObject bestPlant = null; //bestPlant = closest plant
-            foreach (var plant in objectReference.plantsInRange)
-            {
-                if (plant != null)
-                {
-                    float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-                    if (dist < bestDistance)
-                    {
-                        bestDistance = dist;
-                        bestPlant = plant;
-                    }
-                }
+            //float bestDistance = Mathf.Infinity;
+            //GameObject bestPlant = null; //bestPlant = closest plant
+            //foreach (var plant in objectReference.plantsInRange)
+            //{
+            //    if (plant != null)
+            //    {
+            //        float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
+            //        if (dist < bestDistance)
+            //        {
+            //            bestDistance = dist;
+            //            bestPlant = plant;
+            //        }
+            //    }
 
+            //}
+
+            //if (bestPlant != null && (objectReference.animal.moreHungry/*|| objectReference.animal.criticalPercent > objectReference.animal.hunger*/))
+            //{
+            //    //zur nähesten pflanze gehen
+            //    float distance = Vector3.Distance(objectReference.transform.position, bestPlant.transform.position);
+            //    objectReference.agent.SetDestination(bestPlant.transform.position);
+            //    return distance < objectReference.viewDistance/* && objectReference.animal.moreHungry*/;/* && objectReference.animal.isDrinking == false && objectReference.finishedDrinking == true;*//* && objectReference.animal.moreHungry;*/ //Testing it with the && statement
+            //}
+
+            //return false;
+            if (objectReference.animal.FindClosestPlant() != null && objectReference.animal.moreHungry)
+            {
+                return true;
             }
 
-            if (bestPlant != null && (objectReference.animal.moreHungry/*|| objectReference.animal.criticalPercent > objectReference.animal.hunger*/))
-            {
-                //zur nähesten pflanze gehen
-                float distance = Vector3.Distance(objectReference.transform.position, bestPlant.transform.position);
-                objectReference.agent.SetDestination(bestPlant.transform.position);
-                return distance < objectReference.viewDistance/* && objectReference.animal.moreHungry*/;/* && objectReference.animal.isDrinking == false && objectReference.finishedDrinking == true;*//* && objectReference.animal.moreHungry;*/ //Testing it with the && statement
-            }
 
             return false;
         }
     }
 
-    public class FoodOutOfRangeTransition : FoodInRangeTransition //hier soll er in WanderAround gehen
-    {
-        public override bool GetIsAllowed()
-        {
-            return !base.GetIsAllowed();
-        }
-    }
+    //public class FoodOutOfRangeTransition : FoodInRangeTransition //hier soll er in WanderAround gehen
+    //{
+    //    public override bool GetIsAllowed()
+    //    {
+    //        return !base.GetIsAllowed();
+    //    }
+    //}
 
     public class AtFoodSourceTransition : Transition<StateMachineEntity>
     {
@@ -398,23 +378,19 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.finishedEating) //MUSS NOCH DEFINIERT WERDEN WANN IST ER FERTIG MIT ESSEN? PSEUDO CODE!
-            {
-                return true;
-            }
 
-            return false;
+            return objectReference.animal.hunger <= 0.01f;
 
         }
     }
 
-    public class NotFinishedEatingTransition : FinishedEatingTransition
-    {
-        public override bool GetIsAllowed()
-        {
-            return !base.GetIsAllowed();
-        }
-    }
+    //public class NotFinishedEatingTransition : FinishedEatingTransition
+    //{
+    //    public override bool GetIsAllowed()
+    //    {
+    //        return !base.GetIsAllowed();
+    //    }
+    //}
 
     public class WaterInRangeTransition : Transition<StateMachineEntity> //state muss noch geschrieben werden //Hier soll er in SearchWater gehen
     {
@@ -504,7 +480,7 @@ public class StateMachineEntity : MonoBehaviour
 
         //wenn mehr hunger als durst und keine Pflanze in sicht, befindet er sich in WanderAround und wenn Pflanze in Sicht macht er SearchFood
         /*stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");*/ //wenn er keine pflanze in view distance hat soll er wanderAround bis er food findet
-        //stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");
+                                                                                                                                 //stateMachine.AddTransition(new FoodOutOfRangeTransition() { objectReference = this }, "SearchFood", "WanderAround");
         stateMachine.AddTransition(new FinishedEatingTransition() { objectReference = this }, "EatFood", "WanderAround");
 
 

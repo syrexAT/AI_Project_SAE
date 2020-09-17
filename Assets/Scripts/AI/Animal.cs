@@ -30,9 +30,13 @@ public class Animal : MonoBehaviour
     public Image hungerBar;
     public Image thirstBar;
 
+    public StateMachineEntity animalEntity;
+
+    public GameObject currentlyBestPlant;
+
     private void Start()
     {
-        
+        animalEntity = GetComponent<StateMachineEntity>();
     }
 
     private void Update()
@@ -54,5 +58,25 @@ public class Animal : MonoBehaviour
             moreThirsty = true;
             moreHungry = false;
         }
+    }
+
+    public GameObject FindClosestPlant()
+    {
+        float bestDistance = Mathf.Infinity;
+        GameObject bestPlant = null; //bestPlant = closest plant
+        foreach (var plant in animalEntity.plantsInRange)
+        {
+            if (plant != null)
+            {
+                float dist = Vector3.Distance(plant.transform.position, animalEntity.transform.position);
+                if (dist < bestDistance)
+                {
+                    bestDistance = dist;
+                    bestPlant = plant;
+                }
+            }
+        }
+
+        return bestPlant;
     }
 }
