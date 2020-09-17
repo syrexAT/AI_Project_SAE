@@ -147,16 +147,16 @@ public class PredatorEntity : MonoBehaviour
 
             if (bestPrey != null)
             {
-                Debug.Log(bestPrey.transform.position);
+                //Debug.Log(bestPrey.transform.position);
                 objectReference.agent.SetDestination(bestPrey.transform.position);
                 objectReference.predator.ReduceEnergy();
             }
         }
 
-        public override void Exited()
-        {
-            objectReference.preyFound = false;
-        }
+        //public override void Exited()
+        //{
+        //    objectReference.preyFound = false;
+        //}
     }
 
     public class EatPreyState : State<PredatorEntity>
@@ -183,21 +183,26 @@ public class PredatorEntity : MonoBehaviour
 
             if (bestPrey != null)
             {
+                Debug.Log("bestPrey transPos: " + bestPrey.transform.position);
                 objectReference.predator.EatPreyFunction(bestPrey);
+            }
+            if (bestPrey == null)
+            {
+                objectReference.preyFound = false; //THIS WAS IT check if its null instead of in Exited beacuse it will never reach Exited() !!!! (maybe the same in statemachineEntity
             }
         }
 
-        public override void Exited()
-        {
-            objectReference.preyFound = false;
-        }
+        //public override void Exited()
+        //{
+        //    objectReference.preyFound = false;
+        //}
     }
 
     public class NoEnergyTransition : Transition<PredatorEntity> //wenn er keine energy mehr hat geht er wieder in Idle
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy <= 0f) //wenn energy unter energythreshhold liegt
+            if (objectReference.predator.energy <= 0f && objectReference.preyFound == false) //wenn energy unter energythreshhold liegt
             {
                 return true;
             }
@@ -210,7 +215,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy > objectReference.predator.energyThreshhold)
+            if (objectReference.predator.energy > objectReference.predator.energyThreshhold && objectReference.preyFound == false)
             {
                 return true;
             }
@@ -277,6 +282,11 @@ public class PredatorEntity : MonoBehaviour
         //stateMachine.AddTransition(new NoEnergyTransition() { objectReference = this }, "SearchPrey", "Idle");
 
 
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, viewDistanceCollider.radius * 10f);
     }
 
 

@@ -13,7 +13,7 @@ public class PredatorViewDistance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Animal")
+        if (other.gameObject.tag == "Animal" && other.gameObject.name != "ViewDistance")
         {
             predator.animalsInRange.Add(other.gameObject);
         }
@@ -21,7 +21,7 @@ public class PredatorViewDistance : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Animal")
+        if (other.gameObject.tag == "Animal" && other.gameObject.name != "ViewDistance")
         {
             if (other != null)
             {

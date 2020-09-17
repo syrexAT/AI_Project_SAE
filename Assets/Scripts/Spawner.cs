@@ -52,7 +52,7 @@ public class Spawner : MonoBehaviour
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
         if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal")
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
                 Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
             }
@@ -72,7 +72,7 @@ public class Spawner : MonoBehaviour
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
         if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal")
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
                 Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
             }

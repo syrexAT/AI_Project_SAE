@@ -8,6 +8,7 @@ TagManager:
   - Plant
   - Animal
   - Predator
+  - PredatorViewDistance
   layers:
   - Default
   - TransparentFX

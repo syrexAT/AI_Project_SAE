@@ -57,4 +57,9 @@ Trinkt Wasser ohne beim path zu sein nachdem er mit EatFood fertig ist
 erkennt wassertiles nicht, (so wie das problem war mit weils ein Vector2 war, haben wir dann aber gefixt das wir es zu einem Vector3 gemachthaben weil die Z achse ja sonst fehlt!)
 
 FEHLER IN PREDATORENTITIY
-wenn er beim prey ist switched er zwischen EatPrey -> SearchPrey -> HuntPrey
+wenn er beim prey ist switched er zwischen EatPrey -> SearchPrey -> HuntPrey //FIXED
+
+another fehler in predatorentitity
+wenn er ein prey hunted und da sind andere irgendwie in der nähe isst er plz alle in seiner viewdistance!
+
+MAYBE Lösung bei StateMachineEntitiy ! --> in predatorentitiy eatPrey hab ich jetzt ein bool false gesetzt wenn der bestPrey null war anstat im Exited es false zu stellen weil er da nie hingekommen ist!

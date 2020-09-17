@@ -19,6 +19,7 @@ public class Predator : MonoBehaviour
     public float energyReductionPerSecond;
 
     public float energyThreshhold; //when energy has reached this value the predator can chase again (if the chase takes a long time he may not eat the animal and has to wait on energy again)
+    public float hungerThreshhold; //under a specific threshhold the predator wont search for prey, he is full!
 
     public Image energyBar;
     public Image hungerBar;

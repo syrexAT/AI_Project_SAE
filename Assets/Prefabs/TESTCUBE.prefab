@@ -664,7 +664,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8429396983511418605}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0c419620d759af4997896e88e10e205, type: 3}
   m_Name: 
@@ -707,12 +707,19 @@ MonoBehaviour:
   predatorInRange: []
   waterInRange: []
   animal: {fileID: 0}
-  drinkTime: 0
   drinkRemainingTime: 0
   drinkTimesUp: 0
   drinkTimerIsRunning: 0
   drinkTimerIsUp: 0
+  finishedDrinking: 0
+  drinkTime: 0
+  finishedEating: 0
+  eatTime: 0
+  inWaterState: 0
+  inFoodState: 0
   stateText: {fileID: 6713779135744708044}
+  nextFoodDestination: {x: 0, y: 0, z: 0}
+  nextWaterDestination: {x: 0, y: 0, z: 0}
 --- !u!114 &1217366192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,8 +734,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thirst: 0
   hunger: 0
-  timeToDeathByThirst: 300
-  timeToDeathByHunger: 100
+  timeToDeathByThirst: 100
+  timeToDeathByHunger: 200
   moreHungry: 0
   moreThirsty: 0
   drinkDuration: 6
@@ -737,6 +744,8 @@ MonoBehaviour:
   viewDistance: 0
   timeBetweenActionsChoices: 0
   moveSpeed: 0
+  isDrinking: 0
+  isEating: 0
   hungerBar: {fileID: 8029108453540713490}
   thirstBar: {fileID: 8521684187999813699}
 --- !u!1 &8519615027387360437
