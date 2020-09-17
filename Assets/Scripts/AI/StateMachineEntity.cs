@@ -9,17 +9,13 @@ using TMPro;
 //STATE MACHINE FOR ANIMAL(RABBIT)
 public class StateMachineEntity : MonoBehaviour
 {
-    //Vielleicht in singelton umwandeln, und static vermeiden?
-    public static StateMachineEntity _instance;
-
-
     public NavMeshAgent agent;
 
     public StateMachine<StateMachineEntity> stateMachine;
 
     public float moveSpeed = 2f;
 
-   /* public static float viewRadius = 10f;*/ //this needs to be the radius of the view radius detection collider on the child of statemachinentity!!!!
+    /* public static float viewRadius = 10f;*/ //this needs to be the radius of the view radius detection collider on the child of statemachinentity!!!!
     public ViewDistanceScript viewDistanceScript;
     public SphereCollider viewDistanceCollider;
     public float viewDistance;
@@ -58,25 +54,6 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Entered()
         {
-            objectReference.drinkTimesUp = false;
-            objectReference.drinkTime = Time.time;
-            objectReference.finishedDrinking = false;
-            //objectReference.inWaterState = true;
-            
-
-        }
-
-        public override void Update()
-        {
-            //Find Water in View Distance --> gehört wo anders hin? weil er hierfür in dem state sein muss
-
-
-            //float bestDistance = Mathf.Infinity;
-            //waterlist durchgehen abfragen ob die distance zwischen animal un punkt kleiner als viewdistance
-            //von allen pnktne kriegt man die distance,  --> genauso wie unten
-            //Debug.Log("WaterInRange: " + objectReference.waterInRange);
-            //Debug.Log("IN SEARCHWATERSTATE");
-
             float bestDistance = Mathf.Infinity; //glaub ich?
             Vector3 bestWater = Vector3.zero;
             foreach (var water in objectReference.waterInRange)
@@ -95,37 +72,15 @@ public class StateMachineEntity : MonoBehaviour
                 objectReference.agent.SetDestination(new Vector3(bestWater.x, 0, bestWater.y)); //Vector3?
                 objectReference.nextWaterDestination = new Vector3(bestWater.x, 0, bestWater.y);
                 Debug.Log("SetDestination" + new Vector3(bestWater.x, 0, bestWater.y));
-                //if (!objectReference.agent.pathPending)
-                //{
-                //    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-                //    {
-                //        if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                //        {
-                //            //here he reached the destination/waterTile
-                //            if (objectReference.animal.thirst > 0)
-                //            {
-                //                //float drinkDuration = objectReference.animal.drinkDuration;
-                //                //drinkDuration -= Time.deltaTime;
-                //                Debug.Log("Inside Drinking");
-                //                //Debug.Log(objectReference.agent.velocity.sqrMagnitude);
-                //                //objectReference.animal.isDrinking = true;
-                //                objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
-                //                objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
-                //                if (Mathf.Approximately(objectReference.animal.thirst, 0f))
-                //                {
-                //                    //objectReference.animal.isDrinking = false;
-                //                    //objectReference.finishedDrinking = true;
-                //                }
-
-                //                //Debug.Log(Time.deltaTime * 1 / objectReference.animal.drinkDuration);
-                //            }
-                //        }
-                //    }
-                //}
             }
-            //Debug.Log("WaterInRange: " + objectReference.waterInRange);
+            //objectReference.drinkTimesUp = false;
+            //objectReference.drinkTime = Time.time;
+            //objectReference.finishedDrinking = false;
+        }
 
-            //Debug.Log(objectReference.agent.velocity.sqrMagnitude);
+        public override void Update()
+        {
+
         }
     }
 
@@ -133,67 +88,15 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override void Entered()
         {
-            objectReference.finishedDrinking = false;
-            objectReference.drinkTime = 0;
+            //objectReference.finishedDrinking = false;
+            //objectReference.drinkTime = 0;
         }
 
         public override void Update()
         {
-            //Debug.Log("WaterInRange: " + objectReference.waterInRange);
-            //Debug.Log("IN SEARCHWATERSTATE");
-
-            //float bestDistance = Mathf.Infinity; //glaub ich?
-            //Vector3 bestWater = Vector3.zero;
-            //foreach (var water in objectReference.waterInRange)
-            //{
-            //    Debug.Log("IN SEARCHWATERSTATE");
-            //    float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), objectReference.transform.position);
-            //    if (dist < bestDistance)
-            //    {
-            //        bestDistance = dist;
-            //        bestWater = water;
-            //    }
-            //}
-            
-            if (!objectReference.agent.pathPending)
-            {
-                Debug.Log(Vector3.Distance(objectReference.transform.position, objectReference.nextWaterDestination));
-                if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-                {
-                    Debug.Log(objectReference.agent.remainingDistance);
-                    if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                    {
-                        Debug.Log("Path reached");
-                        //here he reached the destination/waterTile
-                        if (objectReference.animal.thirst > 0)
-                        {
-                            objectReference.drinkTime += Time.deltaTime;
-                            Debug.Log("Inside Drinking");
-                            objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
-                            objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
-                            if (objectReference.drinkTime >= objectReference.animal.drinkDuration)
-                            {
-                                objectReference.finishedDrinking = true;
-                            }
-
-
-                            if (Mathf.Approximately(objectReference.animal.thirst, 0f))
-                            {
-                                //objectReference.animal.isDrinking = false;
-                                //objectReference.finishedDrinking = true;
-                            }
-
-                            //Debug.Log(Time.deltaTime * 1 / objectReference.animal.drinkDuration);
-                        }
-                    }
-                }
-            }
-        }
-
-        public override void Exited()
-        {
-            objectReference.finishedDrinking = false;
-            objectReference.drinkTime = 0;
+            Debug.Log("Inside Drinking");
+            objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
+            objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
         }
 
     }
@@ -224,31 +127,6 @@ public class StateMachineEntity : MonoBehaviour
                 //zur nähesten pflanze gehen
                 objectReference.agent.SetDestination(bestPlant.transform.position);
                 Debug.Log("SetDestination" + bestPlant.transform.position);
-                //hier food essen, code ausführen das pflanze kleiner wird und dann deleted wird und er währenddessen isst
-
-                //if (!objectReference.agent.pathPending)
-                //{
-                //    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-                //    {
-                //        if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                //        {
-                //            //here he reached the destination/waterTile
-                //            if (objectReference.animal.hunger != 0)
-                //            {
-                //                float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
-                //                PlantScript foodTarget;
-                //                foodTarget = bestPlant.GetComponent<PlantScript>();
-                //                eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
-                //                objectReference.animal.hunger -= eatAmount;
-                //                //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
-                //                if (foodTarget.AmountRemaining <= 0)
-                //                {
-                //                    bestPlant = null;
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
             }
         }
     }
@@ -292,18 +170,18 @@ public class StateMachineEntity : MonoBehaviour
                             //here he reached the destination/waterTile
                             //if (objectReference.animal.hunger > 0)
                             //{
-                                objectReference.eatTime += Time.deltaTime;
-                                float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
-                                PlantScript foodTarget;
-                                foodTarget = bestPlant.GetComponent<PlantScript>();
-                                eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
-                                objectReference.animal.hunger -= eatAmount;
-                                //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
-                                if (/*foodTarget.AmountRemaining <= 0 || */objectReference.eatTime >= objectReference.animal.eatDuraton)
-                                {
-                                    objectReference.finishedEating = true;
-                                    bestPlant = null;
-                                }
+                            objectReference.eatTime += Time.deltaTime;
+                            float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
+                            PlantScript foodTarget;
+                            foodTarget = bestPlant.GetComponent<PlantScript>();
+                            eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
+                            objectReference.animal.hunger -= eatAmount;
+                            //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
+                            if (/*foodTarget.AmountRemaining <= 0 || */objectReference.eatTime >= objectReference.animal.eatDuraton)
+                            {
+                                objectReference.finishedEating = true;
+                                bestPlant = null;
+                            }
 
                             //}
                         }
@@ -490,6 +368,10 @@ public class StateMachineEntity : MonoBehaviour
                 }
             }
 
+            //if (objectReference.agent.)
+            //{
+
+            //}
             return false;
         }
     }
@@ -502,10 +384,7 @@ public class StateMachineEntity : MonoBehaviour
             {
                 if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
                 {
-                    if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -513,59 +392,12 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    
+
 
     public class FinishedEatingTransition : Transition<StateMachineEntity> //hier entweder bis die zeit vergangen ist(die pflanze aufgegessen ist) oder hunger bei einem kleinen wert ist
     {
         public override bool GetIsAllowed()
         {
-            //float bestDistance = Mathf.Infinity;
-            //GameObject bestPlant = null; //bestPlant = closest plant
-            //foreach (var plant in objectReference.plantsInRange)
-            //{
-            //    if (plant != null)
-            //    {
-            //        float dist = Vector3.Distance(plant.transform.position, objectReference.transform.position);
-            //        if (dist < bestDistance)
-            //        {
-            //            bestDistance = dist;
-            //            bestPlant = plant;
-            //        }
-            //    }
-            //}
-
-            //if (bestPlant != null)
-            //{
-            //    if (!objectReference.agent.pathPending)
-            //    {
-            //        if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-            //        {
-            //            if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-            //            {
-            //                //here he reached the destination/waterTile
-            //                if (objectReference.animal.hunger != 0)
-            //                {
-            //                    float eatAmount = Mathf.Min(objectReference.animal.hunger, Time.deltaTime * 1 / objectReference.animal.eatDuraton);
-            //                    PlantScript foodTarget;
-            //                    foodTarget = bestPlant.GetComponent<PlantScript>();
-            //                    eatAmount = foodTarget.Consume(eatAmount); //wird nichtmehr ausgeführt? warum? nach transition serachFood->WanderAround vielleicht wegen dem moreHungry?
-            //                    objectReference.animal.hunger -= eatAmount;
-            //                    //objectReference.animal.hunger = Mathf.Clamp01(objectReference.animal.hunger);
-            //                    if (foodTarget.AmountRemaining <= 0)
-            //                    {
-            //                        bestPlant = null;
-            //                    }
-
-            //                    return foodTarget.AmountRemaining <= 0 || objectReference.animal.hunger <= 0;//geht das weils ja nie ganz 0 ist? weils konstant raufgeht?
-
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-            //return false;
-
             if (objectReference.finishedEating) //MUSS NOCH DEFINIERT WERDEN WANN IST ER FERTIG MIT ESSEN? PSEUDO CODE!
             {
                 return true;
@@ -589,10 +421,13 @@ public class StateMachineEntity : MonoBehaviour
         public override bool GetIsAllowed()
         {
             float bestDistance = Mathf.Infinity; //glaub ich?
-            Vector3 bestWater = Vector3.zero;
+            Vector2 bestWater = Vector2.zero;
+            Vector3 animalPosition = objectReference.transform.position;
+
             foreach (var water in objectReference.waterInRange)
             {
-                float dist = Vector3.Distance(new Vector3(water.x, 0 ,water.y), objectReference.transform.position);
+
+                float dist = Vector2.Distance(new Vector2(water.x, water.y), new Vector2(animalPosition.x, animalPosition.z));
                 if (dist < bestDistance)
                 {
                     bestDistance = dist;
@@ -600,10 +435,10 @@ public class StateMachineEntity : MonoBehaviour
                 }
             }
 
-            if (bestWater != Vector3.zero && objectReference.animal.moreThirsty)
+            if (bestDistance != Mathf.Infinity && objectReference.animal.moreThirsty)
             {
                 /*objectReference.agent.SetDestination(new Vector2(bestWater.x, bestWater.y));*/ //Vector3?
-                float distance = Vector3.Distance(objectReference.transform.position, bestWater);
+                float distance = Vector2.Distance(new Vector2(animalPosition.x, animalPosition.z), bestWater);
                 return distance < objectReference.viewDistance/* && objectReference.animal.moreThirsty*/;
             }
 
@@ -611,79 +446,12 @@ public class StateMachineEntity : MonoBehaviour
         }
     }
 
-    public class WaterOutOfRangeTransition : WaterInRangeTransition //state muss noch geschrieben werden //Hier soll er ins WanderAround gehen
-    {
-        public override bool GetIsAllowed()
-        {
-            return !base.GetIsAllowed();
-        }
-    }
 
     public class FinishedDrinkingTransition : Transition<StateMachineEntity> //hier sagen wenn er fertig ist mit trinken also entweder nach zeit oder wenn durst einen kleinen wert erreicht hat
     {
         public override bool GetIsAllowed()
         {
-            //float bestDistance = Mathf.Infinity; //glaub ich?
-            //Vector3 bestWater = Vector3.zero;
-            //foreach (var water in objectReference.waterInRange)
-            //{
-            //    Debug.Log("IN SEARCHWATERSTATE");
-            //    float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), objectReference.transform.position);
-            //    if (dist < bestDistance)
-            //    {
-            //        bestDistance = dist;
-            //        bestWater = water;
-            //    }
-            //}
-
-            //if (!objectReference.agent.pathPending)
-            //{
-            //    if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
-            //    {
-            //        if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-            //        {
-            //            return true;
-            //            //here he reached the destination/waterTile
-            //            if (objectReference.animal.thirst > 0)
-            //            {
-            //                Debug.Log("Inside Drinking");
-            //                objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
-            //                objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
-            //                if (Mathf.Approximately(objectReference.animal.thirst, 0f))
-            //                {
-            //                    //objectReference.animal.isDrinking = false;
-            //                    //objectReference.finishedDrinking = true;
-            //                }
-
-            //               /* return objectReference.animal.thirst = 0;*///???? geht das so??
-
-            //                //Debug.Log(Time.deltaTime * 1 / objectReference.animal.drinkDuration);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //}
-
-            //return false;
-
-            if (objectReference.finishedDrinking) //MUSS NOCH DEFINIERT WERDEN WANN IST ER FERTIG MIT TRINKEN? PSEUDO CODE!
-            {
-                return true;
-            }
-
-            return false;
-
-        }
-    }
-
-    public class NotFinishedDrinkingTransition : FinishedDrinkingTransition
-    {
-        public override bool GetIsAllowed()
-        {
-            return !base.GetIsAllowed();
+            return objectReference.animal.thirst <= 0.01f;
         }
     }
 
@@ -710,7 +478,7 @@ public class StateMachineEntity : MonoBehaviour
         stateMachine.AddState(new WanderAroundState() { objectReference = this }, "WanderAround");
         stateMachine.AddState(new IdleState() { objectReference = this }, "Idle");
 
-/*        stateMachine.SetInitialState("Idle");*/ //IDLE ODER WANDERAROUND?
+        /*        stateMachine.SetInitialState("Idle");*/ //IDLE ODER WANDERAROUND?
         stateMachine.SetInitialState("WanderAround");
         #endregion
 
@@ -751,7 +519,7 @@ public class StateMachineEntity : MonoBehaviour
         #endregion
     }
 
-    
+
 
     private void Update()
     {
@@ -813,11 +581,6 @@ public class StateMachineEntity : MonoBehaviour
         //    //one more for water but not with colliders obviously, but with detecting noise map heights under 0.4f
         //}
         #endregion
-
-        //Checking is handled in ViewDistanceScript
-        //Debug.Log("Plants: " + plantsInRange.Count);
-        //Debug.Log("Predator " + predatorInRange.Count);
-        //Debug.Log("WaterTiles " + waterInRange.Count);
     }
 
     public void AddObjectToListOnce(GameObject obj, List<GameObject> myList)
@@ -827,18 +590,5 @@ public class StateMachineEntity : MonoBehaviour
             myList.Add(obj);
         }
     }
-
-
-    //public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
-    //{
-    //    Vector3 randDirection = Random.insideUnitSphere * dist;
-    //    randDirection += origin;
-
-    //    NavMeshHit navHit;
-
-    //    NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
-
-    //    return navHit.position;
-    //}
 
 }

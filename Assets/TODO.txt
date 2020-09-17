@@ -63,3 +63,5 @@ another fehler in predatorentitity
 wenn er ein prey hunted und da sind andere irgendwie in der nähe isst er plz alle in seiner viewdistance!
 
 MAYBE Lösung bei StateMachineEntitiy ! --> in predatorentitiy eatPrey hab ich jetzt ein bool false gesetzt wenn der bestPrey null war anstat im Exited es false zu stellen weil er da nie hingekommen ist!
+
+die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen, theoretisch mit dem mesh rumspielen das wenn die units halt so klein sind das nicht so weite offene flächen sind sondern mehr gras und wasserflächen halt kleiner obviously

@@ -26,6 +26,8 @@ public class Predator : MonoBehaviour
 
     public PredatorEntity predatorEntity;
 
+    public GameObject currentlyHuntedAnimal;
+
     // Start is called before the first frame update
     void Start()
     {

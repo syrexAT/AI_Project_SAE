@@ -78,7 +78,7 @@ public class PredatorEntity : MonoBehaviour
 
         public override void Update()
         {
-            objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
+            //objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
 
             timer += Time.deltaTime;
             if (timer >= wanderTimer)
@@ -87,27 +87,6 @@ public class PredatorEntity : MonoBehaviour
                 objectReference.agent.SetDestination(newPos);
                 timer = 0;
             }
-
-            objectReference.predator.FindClosestPrey();
-            if (objectReference.predator.FindClosestPrey() != null)
-            {
-                objectReference.preyFound = true;
-            }
-
-            //float bestDistance = Mathf.Infinity;
-            //GameObject bestPrey = null; //bestPlant = closest plant
-            //foreach (var prey in objectReference.animalsInRange)
-            //{
-            //    if (prey != null)
-            //    {
-            //        float dist = Vector3.Distance(prey.transform.position, objectReference.transform.position);
-            //        if (dist < bestDistance)
-            //        {
-            //            bestDistance = dist;
-            //            bestPrey = prey;
-            //        }
-            //    }
-            //}
         }
     }
 
@@ -123,32 +102,20 @@ public class PredatorEntity : MonoBehaviour
         {
             objectReference.preyFound = true;
             objectReference.agent.speed = objectReference.fastSpeed;
+            objectReference.predator.currentlyHuntedAnimal = objectReference.predator.FindClosestPrey();
+
         }
 
         public override void Update()
         {
-            //float bestDistance = Mathf.Infinity;
-            //GameObject bestPrey = null; //bestPlant = closest plant
-            //foreach (var prey in objectReference.animalsInRange)
-            //{
-            //    if (prey != null)
-            //    {
-            //        float dist = Vector3.Distance(prey.transform.position, objectReference.transform.position);
-            //        if (dist < bestDistance)
-            //        {
-            //            bestDistance = dist;
-            //            bestPrey = prey;
-            //        }
-            //    }
-            //}
 
             //ODER
-            GameObject bestPrey = objectReference.predator.FindClosestPrey();
+            
 
-            if (bestPrey != null)
+            if (objectReference.predator.currentlyHuntedAnimal != null)
             {
                 //Debug.Log(bestPrey.transform.position);
-                objectReference.agent.SetDestination(bestPrey.transform.position);
+                objectReference.agent.SetDestination(objectReference.predator.currentlyHuntedAnimal.transform.position);
                 objectReference.predator.ReduceEnergy();
             }
         }
@@ -161,35 +128,20 @@ public class PredatorEntity : MonoBehaviour
 
     public class EatPreyState : State<PredatorEntity>
     {
+        public override void Entered()
+        {
+
+            if (objectReference.predator.currentlyHuntedAnimal != null)
+            {
+                Debug.Log("bestPrey transPos: " + objectReference.predator.currentlyHuntedAnimal.transform.position);
+                objectReference.predator.EatPreyFunction(objectReference.predator.currentlyHuntedAnimal);
+            }
+        }
+
         //wenn distance klein genug isst er ihn und transitioned entweder wieder zu serachfood wenn energy high enough oder zu idle wenn nicht high enough
         public override void Update()
         {
-            //float bestDistance = Mathf.Infinity;
-            //GameObject bestPrey = null; //bestPlant = closest plant
-            //foreach (var prey in objectReference.animalsInRange)
-            //{
-            //    if (prey != null)
-            //    {
-            //        float dist = Vector3.Distance(prey.transform.position, objectReference.transform.position);
-            //        if (dist < bestDistance)
-            //        {
-            //            bestDistance = dist;
-            //            bestPrey = prey;
-            //        }
-            //    }
-            //}
 
-            GameObject bestPrey = objectReference.predator.FindClosestPrey();
-
-            if (bestPrey != null)
-            {
-                Debug.Log("bestPrey transPos: " + bestPrey.transform.position);
-                objectReference.predator.EatPreyFunction(bestPrey);
-            }
-            if (bestPrey == null)
-            {
-                objectReference.preyFound = false; //THIS WAS IT check if its null instead of in Exited beacuse it will never reach Exited() !!!! (maybe the same in statemachineEntity
-            }
         }
 
         //public override void Exited()
@@ -202,7 +154,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy <= 0f && objectReference.preyFound == false) //wenn energy unter energythreshhold liegt
+            if (objectReference.predator.energy <= 0f/* && objectReference.preyFound == false*/) //wenn energy unter energythreshhold liegt
             {
                 return true;
             }
@@ -215,7 +167,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy > objectReference.predator.energyThreshhold && objectReference.preyFound == false)
+            if (objectReference.predator.energy > objectReference.predator.energyThreshhold/* && objectReference.preyFound == false*/)
             {
                 return true;
             }
@@ -228,7 +180,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.preyFound == true)
+            if (objectReference.predator.FindClosestPrey() != null)
             {
                 return true;
             }
@@ -241,10 +193,9 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            GameObject bestPrey = objectReference.predator.FindClosestPrey();
-            if (bestPrey != null)
+            if (objectReference.predator.currentlyHuntedAnimal != null)
             {
-                if (Vector3.Distance(objectReference.transform.position, bestPrey.transform.position) <= 20f)
+                if (Vector3.Distance(objectReference.transform.position, objectReference.predator.currentlyHuntedAnimal.transform.position) <= 20f)
                 {
                     return true;
                 }
