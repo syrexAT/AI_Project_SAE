@@ -90,4 +90,16 @@ public class Spawner : MonoBehaviour
         }
 
     }
+
+
+    //need to work on that
+    public void SpawnAnimals(float x, float y)
+    {
+
+    }
+
+    public void SpawnPredators(float x, float y)
+    {
+
+    }
 }

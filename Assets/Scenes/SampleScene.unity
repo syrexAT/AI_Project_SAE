@@ -2402,7 +2402,7 @@ PrefabInstance:
     - target: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61565f480063d94f9db5f8afcb44fce, type: 3}
@@ -3158,7 +3158,7 @@ PrefabInstance:
     - target: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61565f480063d94f9db5f8afcb44fce, type: 3}
@@ -4190,7 +4190,7 @@ PrefabInstance:
     - target: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61565f480063d94f9db5f8afcb44fce, type: 3}
@@ -4355,6 +4355,9 @@ MonoBehaviour:
   currentPlants: 0
   gotPlants: 0
   spawner: {fileID: 0}
+  mapGen: {fileID: 1068812302}
+  chunkSize: 0
+  regions: []
 --- !u!1 &1874942123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4955,7 +4958,7 @@ PrefabInstance:
     - target: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61565f480063d94f9db5f8afcb44fce, type: 3}
