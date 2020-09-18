@@ -12,10 +12,9 @@ Vielleicht detectbar damit, weil es nicht Walkable/Hohe cost hat? maybe ein work
 [] Pflanzen nachwachsen lassen?
 
 ---STATE MACHINE/AI---
-[] Transitions einfügen für Tiere
-[] States + Transitions einfügen für Predator, für predator einen neuen script so wie statemachineentity erstellen
-[] HUNGER/Durst einbauen sonst gehen die Transitions/States garnicht, weil wenn mehr Hunger --> Zur pflanze, wenn mehr Durst --> Zu wasser (ANIMAL SCRIPT?)
-[] Predators müssen auch Durst haben und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, tieren nachrennen sollte thirst verursachen
+[X] Transitions einfügen für Tiere
+[X] States + Transitions einfügen für Predator, für predator einen neuen script so wie statemachineentity erstellen
+[X] HUNGER/Durst einbauen sonst gehen die Transitions/States garnicht, weil wenn mehr Hunger --> Zur pflanze, wenn mehr Durst --> Zu wasser (ANIMAL SCRIPT?)
 [] wenn Predator nachläuft used er Energy, wenn er keine mehr hat entkommt das Tier
 
 ---Optional---
@@ -70,3 +69,43 @@ die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen,
 TODO:
 Need to reduce the -hunger and  -thirst when drinking/eating, so it will take longer
 Plant needs to shrink in size by the amount it will give hunger back again
+
+
+TODO 18.09:
+GAMEPLAY:
+[X] Tiere(Hasen) und Predators spawnen lassen (wo land is obviously wieder, gleiche methode wie mit den Trees/Plants aufs mesh raycasten)
+[] Tiere/Predator spawning rand value muss noch angepasst werden, bzw verändert werden wenn man in den MapSettings andere Amounts aussucht
+[] Pflanzen nachwachsen lassen
+[] Predators (müssen auch Durst haben) und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, (tieren nachrennen sollte thirst verursachen)
+[X] wenn Predator nachläuft used er Energy, wenn er keine mehr hat entkommt das Tier
+wenn Tier pflanze isst, localScale reducen und gleichzeitig den amount reducen den das tier bekommt wenn es isst
+[] speed von hunger durst reduction beim essen/trinken reducen, jetzt trinkt er und hat extrem schnell keinen durst mehr, sollte länger dauern! (+ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist)
+[]die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen, theoretisch mit dem mesh rumspielen das wenn die units halt so klein sind das nicht so weite offene flächen sind sondern mehr gras und wasserflächen halt kleiner obviously]
+[] Assets für Animal und Predator einfügen
+[] Assets für Pflanzen und Bäume einfügen
+[] Agent Movement behaviour anpassen für animal und predator (turn rate etc., angular speed usw.)
+[] Animals dürfen nicht zur selben pflanze essen gehen bzw man muss die distance erhöhen wo er essen kann
+
+UI:
+[] UI elemente einbauen
+[] Spawn Animal
+[] Spawn Predator
+[] Spawn Plant?
+[] Seed printen unten am bildschirm
+
+MENU:
+MainMenu einbauen
+Play Button (take random seed on start game)
+Exit Button
+Ladebalken einfügen (mit dem LoadSceneAsync krieg ich auch ein .progress, das ist ein float den wert kann ich in den ladebalken geben)
+
+MapSettings Menu
+[] Seed auswählen
+[] Predator amount aussuchen (small, medium, large)
+[] Animal amount aussuchen (small, medium, large)
+
+
+
+[]Color gradients einfügen für mesh (start end color statt nur color, siehe Lague video) oder terrain shaders?
+
+

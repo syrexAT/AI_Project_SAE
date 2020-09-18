@@ -8,6 +8,7 @@ public class MapManager : MonoBehaviour
 {
     public MapGenerator mapGen;
     public NavMeshSurface surface;
+    public GameObject waterPlaneNav;
 
     // Start is called before the first frame update
     void Start()
@@ -33,4 +34,14 @@ public class MapManager : MonoBehaviour
     {
         
     }
+
+    //public IEnumerator BuildMapAndNavMesh()
+    //{
+    //    mapGen.seed = Random.Range(0, 10000);
+
+    //    mapGen.GenerateMap();
+
+    //    //COMMENTED BECAUSE OF LONG EDITOR LOADING TIME
+    //    surface.BuildNavMesh();
+    //}
 }

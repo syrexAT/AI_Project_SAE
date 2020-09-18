@@ -111,6 +111,7 @@ public class StateMachineEntity : MonoBehaviour
             if (objectReference.animal.currentlyBestPlant != null)
             {
                 //zur nähesten pflanze gehen
+                //objectReference.agent.stoppingDistance = 30f; //macht es nur das er bei 30f abstoppt und langsamer wird aber nicht ganz die velocity auf 0 hat und nichtmehr moved
                 objectReference.agent.SetDestination(objectReference.animal.currentlyBestPlant.transform.position);
                 Debug.Log("SetDestination" + objectReference.animal.currentlyBestPlant.transform.position);
             }
@@ -341,10 +342,10 @@ public class StateMachineEntity : MonoBehaviour
             {
                 if (objectReference.agent.remainingDistance <= objectReference.agent.stoppingDistance)
                 {
-                    if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
-                    {
+                    //if (!objectReference.agent.hasPath || objectReference.agent.velocity.sqrMagnitude == 0f)
+                    //{
                         return true;
-                    }
+                    //}
                 }
             }
 

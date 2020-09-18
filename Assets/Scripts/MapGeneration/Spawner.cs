@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour
     public Renderer r;
     public GameObject tree;
     public GameObject plant;
+    public GameObject animal;
+    public GameObject predator;
 
     float randomX;
     float randomZ;
@@ -95,11 +97,49 @@ public class Spawner : MonoBehaviour
     //need to work on that
     public void SpawnAnimals(float x, float y)
     {
+        RaycastHit hit;
+        Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        {
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            {
+                Instantiate(animal, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+            }
+            //else
+            //{
 
+            //    //Debug.Log("Hit Point: " + hit.point);
+            //}
+
+        }
+        else
+        {
+            Debug.Log("No Ray!");
+            return;
+        }
     }
 
     public void SpawnPredators(float x, float y)
     {
+        RaycastHit hit;
+        Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        {
+            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            {
+                Instantiate(predator, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+            }
+            //else
+            //{
 
+            //    //Debug.Log("Hit Point: " + hit.point);
+            //}
+
+        }
+        else
+        {
+            Debug.Log("No Ray!");
+            return;
+        }
     }
 }

@@ -107,6 +107,16 @@ public class MapGenerator : MonoBehaviour
                             {
                                 spawner.SpawnPlants(mapChunkSize - x - 1, y + 1);
                             }
+
+                            if (Random.value <= 0.002f)
+                            {
+                                spawner.SpawnAnimals(mapChunkSize - x - 1, y + 1);
+                            }
+
+                            if (Random.value <= 0.001f)
+                            {
+                                spawner.SpawnPredators(mapChunkSize - x - 1, y + 1);
+                            }
                         }
                         break;
                     }
