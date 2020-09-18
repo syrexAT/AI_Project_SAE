@@ -66,7 +66,7 @@ public class MapGenerator : MonoBehaviour
         waterList.Clear();
         //fetching the 2D noise map from the noise class; later on much more stuff to process the noise map to turn it into terrain map
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
-
+        
         Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
 
 

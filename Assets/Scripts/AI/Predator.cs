@@ -24,6 +24,9 @@ public class Predator : MonoBehaviour
     public Image energyBar;
     public Image hungerBar;
 
+    public Image energyThresholdBar;
+    public Image hungerThresholdBar;
+
     public PredatorEntity predatorEntity;
 
     public GameObject currentlyHuntedAnimal;
@@ -34,7 +37,10 @@ public class Predator : MonoBehaviour
         predatorEntity = GetComponent<PredatorEntity>();
         energy = startEnergy;
         hunger = startHunger;
-    }
+        energyThresholdBar.fillAmount = energyThreshhold;
+        hungerThresholdBar.fillAmount = hungerThreshhold;
+
+}
 
     // Update is called once per frame
     void Update()

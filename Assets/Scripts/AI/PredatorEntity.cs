@@ -32,8 +32,8 @@ public class PredatorEntity : MonoBehaviour
         //Wander Around with reduced speed until energy is at a threshhold to hunt again
         //Low move speed
 
-        public float wanderRadius = 50f; //not tested, probably needs to be set much lower 
-        public float wanderTimer = 1f; //not tested
+        public float wanderRadius = 100f; //not tested, probably needs to be set much lower 
+        public float wanderTimer = 3f; //not tested
 
         private Transform target;
         private float timer;
@@ -46,7 +46,7 @@ public class PredatorEntity : MonoBehaviour
 
         public override void Update()
         {
-            objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
+            //objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
             timer += Time.deltaTime;
             if (timer >= wanderTimer)
             {
@@ -167,7 +167,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy > objectReference.predator.energyThreshhold/* && objectReference.preyFound == false*/)
+            if (objectReference.predator.energy > objectReference.predator.energyThreshhold && objectReference.predator.hunger > objectReference.predator.hungerThreshhold)
             {
                 return true;
             }

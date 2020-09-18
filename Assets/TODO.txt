@@ -75,8 +75,8 @@ TODO 18.09:
 GAMEPLAY:
 [X] Tiere(Hasen) und Predators spawnen lassen (wo land is obviously wieder, gleiche methode wie mit den Trees/Plants aufs mesh raycasten)
 [] Tiere/Predator spawning rand value muss noch angepasst werden, bzw verändert werden wenn man in den MapSettings andere Amounts aussucht
-[] Pflanzen nachwachsen lassen
-[] Predators (müssen auch Durst haben) und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, (tieren nachrennen sollte thirst verursachen)
+{IDK HOW TO} [] Pflanzen nachwachsen lassen
+[X] Predators (müssen auch Durst haben) und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, (tieren nachrennen sollte thirst verursachen)
 [X] wenn Predator nachläuft used er Energy, wenn er keine mehr hat entkommt das Tier
 wenn Tier pflanze isst, localScale reducen und gleichzeitig den amount reducen den das tier bekommt wenn es isst
 [] speed von hunger durst reduction beim essen/trinken reducen, jetzt trinkt er und hat extrem schnell keinen durst mehr, sollte länger dauern! (+ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist)
@@ -85,6 +85,8 @@ wenn Tier pflanze isst, localScale reducen und gleichzeitig den amount reducen d
 [] Assets für Pflanzen und Bäume einfügen
 [] Agent Movement behaviour anpassen für animal und predator (turn rate etc., angular speed usw.)
 [] Animals dürfen nicht zur selben pflanze essen gehen bzw man muss die distance erhöhen wo er essen kann
+
+[] WaterPlane for navmesh auf inactive schalten wenn alles fertig generiert wurde
 
 UI:
 [] UI elemente einbauen

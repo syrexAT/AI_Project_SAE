@@ -11,6 +11,9 @@ public class Animal : MonoBehaviour
     public float timeToDeathByThirst = 10;
     public float timeToDeathByHunger = 200;
 
+    public float thirstReductionPerSecond;
+    public float hungerReductionPerSecond;
+
     public bool moreHungry = false;
     public bool moreThirsty = false;
 

@@ -736,6 +736,8 @@ MonoBehaviour:
   hunger: 0
   timeToDeathByThirst: 100
   timeToDeathByHunger: 200
+  thirstReductionPerSecond: 0.05
+  hungerReductionPerSecond: 0
   moreHungry: 0
   moreThirsty: 0
   drinkDuration: 6
@@ -748,6 +750,8 @@ MonoBehaviour:
   isEating: 0
   hungerBar: {fileID: 8029108453540713490}
   thirstBar: {fileID: 8521684187999813699}
+  animalEntity: {fileID: 0}
+  currentlyBestPlant: {fileID: 0}
 --- !u!1 &8519615027387360437
 GameObject:
   m_ObjectHideFlags: 0

@@ -95,7 +95,8 @@ public class StateMachineEntity : MonoBehaviour
         public override void Update()
         {
             Debug.Log("Inside Drinking");
-            objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
+            //objectReference.animal.thirst -= Time.deltaTime * 1 / objectReference.animal.drinkDuration;
+            objectReference.animal.thirst -= Time.deltaTime * objectReference.animal.thirstReductionPerSecond;
             objectReference.animal.thirst = Mathf.Clamp01(objectReference.animal.thirst);
         }
 

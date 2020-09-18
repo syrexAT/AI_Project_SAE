@@ -39,6 +39,7 @@ public class RegrowPlants : MonoBehaviour
         currentPlants = GameObject.FindGameObjectsWithTag("Plant").Length;
 
         //it obviously doesnt detect water or not because I dont give him noise values, need to fix that / figure out how to do it
+        Debug.Log("WATER_TILES_COUNT" + " " + MapGenerator.waterList.Count);
 
         if (currentPlants <= 20)
         {
@@ -46,23 +47,34 @@ public class RegrowPlants : MonoBehaviour
             {
                 for (int x = 0; x < chunkSize; x++)
                 {
-                    for (int i = 0; i < regions.Length; i++)
+                    if (MapGenerator.waterList.Contains(new Vector2(x,y)))
                     {
-
-                        if (regions[i].height <= 0.8f)
-                        {
-                            if (Random.value <= 0.03f)
-                            {
-                                spawner.SpawnPlants(chunkSize - x - 1, y + 1);
-                            }
-
-                        }
-
-
+                        return;
                     }
+                    else
+                    {
+                        spawner.RespawnPlants(chunkSize - x - 1, y + 1);
+                    }
+                    //float currentHeight = mapGen.noiseMap[x, y];
+                    //for (int i = 0; i < regions.Length; i++)
+                    //{
+
+                    //    if (currentHeight <= regions[i].height)//we found the region that it falls within
+                    //    {
+
+                    //        if (regions[i].height >= 0.8f)
+                    //        {
+                    //            //if (Random.value <= 0.03f)
+                    //            //{
+                    //                spawner.SpawnPlants(chunkSize - x - 1, y + 1);
+
+                    //            //}
+
+                    //        }
+                    //        //break;
+                    //    }
+                    //}
                     //float[,] noiseMap = Noise.GenerateNoiseMap(chunkSize, chunkSize, mapGen.seed, mapGen.noiseScale, mapGen.octaves, mapGen.persistance, mapGen.lacunarity, mapGen.offset);
-
-
                 }
             }
         }
