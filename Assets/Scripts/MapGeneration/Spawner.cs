@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour
     public GameObject animal;
     public GameObject predator;
 
+    public List<GameObject> plants = new List<GameObject>();
+
     float randomX;
     float randomZ;
 
@@ -76,7 +78,9 @@ public class Spawner : MonoBehaviour
         {
             if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
-                Instantiate(plant, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                int randomIndex = Random.Range(0, plants.Count);
+                GameObject randomPlant = plants[randomIndex];
+                Instantiate(randomPlant, hit.point + new Vector3(0, 0, 0), Quaternion.identity);
             }
             //else
             //{
