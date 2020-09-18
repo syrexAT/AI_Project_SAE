@@ -24,7 +24,7 @@ public class MapManager : MonoBehaviour
         mapGen.GenerateMap();
 
         //COMMENTED BECAUSE OF LONG EDITOR LOADING TIME
-        //surface.BuildNavMesh();
+        surface.BuildNavMesh();
 
 
     }

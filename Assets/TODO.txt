@@ -68,7 +68,7 @@ die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen,
 
 TODO:
 Need to reduce the -hunger and  -thirst when drinking/eating, so it will take longer
-Plant needs to shrink in size by the amount it will give hunger back again
+
 
 
 TODO 18.09:
@@ -83,12 +83,14 @@ wenn Tier pflanze isst, localScale reducen und gleichzeitig den amount reducen d
 [] (+ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist)
 [] die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen, theoretisch mit dem mesh rumspielen das wenn die units halt so klein sind das nicht so weite offene flächen sind sondern mehr gras und wasserflächen halt kleiner obviously]
 [] Assets für Animal und Predator einfügen
-[] Assets für Pflanzen und Bäume einfügen
+[X] Assets für Pflanzen und Bäume einfügen
 [] Agent Movement behaviour anpassen für animal und predator (turn rate etc., angular speed usw.)
 [] Animals dürfen nicht zur selben pflanze essen gehen bzw man muss die distance erhöhen wo er essen kann
-[] Bäume als navmeshobstacles definieren
+[X] Bäume als navmeshobstacles definieren
 [] Distance zur Pflanze einfügen das er nicht direkt draufsteht (probably distance checken, wenn die distance kleiner ist navmeshagent stoppen, bzw setDestination oder Pathreached auf true, probably dann etwas anpassen mit AtFoodSource,AtWaterSource!)
-
+[] Plant needs to shrink in size by the amount it will give hunger back again --> lösbar so wie ichs jetzt auch hab mit holder, das er relativ dazu shrinkt also richtung pivot point
+https://answers.unity.com/questions/14170/scaling-an-object-from-a-different-center.html
+[]
 
 [] WaterPlane for navmesh auf inactive schalten wenn alles fertig generiert wurde
 
@@ -113,5 +115,7 @@ MapSettings Menu
 
 
 []Color gradients einfügen für mesh (start end color statt nur color, siehe Lague video) oder terrain shaders?
+
+ERROR: Wenn seed random ist, spawnen pflanzen und bäume im etwas im boden, nciht auf der richtigen höhe?
 
 
