@@ -15,6 +15,7 @@ public class Spawner : MonoBehaviour
     public GameObject predator;
 
     public List<GameObject> plants = new List<GameObject>();
+    public List<GameObject> trees = new List<GameObject>();
 
     float randomX;
     float randomZ;
@@ -58,7 +59,9 @@ public class Spawner : MonoBehaviour
         {
             if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
-                Instantiate(tree, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                int randomIndex = Random.Range(0, trees.Count);
+                GameObject randomTree = trees[randomIndex];
+                Instantiate(randomTree, hit.point + new Vector3(0, 0, 0), Quaternion.identity); //y ist 0 oder 5f wars nur beim cube weil der size 10 hatte und der pivot genau in der mitte war
             }
             //else
             //{
