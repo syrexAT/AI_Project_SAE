@@ -1858,7 +1858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &750771489
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3594,7 +3594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1184682022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3632,15 +3632,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034d0d04c4d27ae4da02e8d41cac4f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSeedToggle: {fileID: 790770413}
   animalDropDown: {fileID: 978661557}
-  predatorDropDown: {fileID: 1282827782}
   smallAnimalDropDown: 0
   mediumAnimalDropDown: 0
   largeAnimalDropDown: 0
+  predatorDropDown: {fileID: 1282827782}
   smallPredatorDropDown: 0
   mediumPredatorDropDown: 0
   largePredatorDropDown: 0
+  randomSeedToggle: {fileID: 790770413}
   randomSeed: 0
   seedInputField: {fileID: 691326421}
 --- !u!1 &1204218223

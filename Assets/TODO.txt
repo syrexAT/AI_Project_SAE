@@ -102,15 +102,15 @@ UI:
 [] Seed printen unten am bildschirm
 
 MENU:
-MainMenu einbauen
-Play Button (take random seed on start game)
-Exit Button
-Ladebalken einfügen (mit dem LoadSceneAsync krieg ich auch ein .progress, das ist ein float den wert kann ich in den ladebalken geben)
+[X] MainMenu einbauen
+[X] Play Button (take random seed on start game)
+[X] Exit Button
+[X] Ladebalken einfügen (mit dem LoadSceneAsync krieg ich auch ein .progress, das ist ein float den wert kann ich in den ladebalken geben)
 
 MapSettings Menu
-[] Seed auswählen
-[] Predator amount aussuchen (small, medium, large)
-[] Animal amount aussuchen (small, medium, large)
+[X] Seed auswählen
+[X] Predator amount aussuchen (small, medium, large)
+[X] Animal amount aussuchen (small, medium, large)
 
 
 

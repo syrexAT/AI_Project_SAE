@@ -154,7 +154,7 @@ public class PredatorEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
-            if (objectReference.predator.energy <= 0f/* && objectReference.preyFound == false*/) //wenn energy unter energythreshhold liegt
+            if (objectReference.predator.energy <= 0f/* && objectReference.preyFound == false*/ || objectReference.predator.currentlyHuntedAnimal == null) //wenn energy unter energythreshhold liegt ODER der currentlyHuntedAnimal null ist (z.B. wenn 2 predators auf selben animal gehen und der eine isst ihn)
             {
                 return true;
             }

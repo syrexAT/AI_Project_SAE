@@ -17,7 +17,17 @@ public class MapManager : MonoBehaviour
         //dann mit async.progress krieg ich eine float vom progress, die kann ich z.B. in ein ladebalken geben (ist ein float von 0-1)
         //var async = SceneManager.LoadSceneAsync(1);
         //async.progress()
-
+        //if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
+        //{
+        //    mapGen.seed = Random.Range(0, 10000);
+        //}
+        //else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
+        //{
+        //    int customSeed;
+        //    customSeed = PlayerPrefs.GetInt("customSeedInput");
+        //    mapGen.seed = customSeed;
+        //    Debug.Log("CUSTOMSEED :" + customSeed);
+        //}
 
     }
 
@@ -25,17 +35,17 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         //To give a random map on Start
-        if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
-        {
-            mapGen.seed = Random.Range(0, 10000);
-        }
-        else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
-        {
-            int customSeed;
-            customSeed = PlayerPrefs.GetInt("customSeedInput");
-            mapGen.seed = customSeed;
-            Debug.Log("CUSTOMSEED :" + customSeed);
-        }
+        //if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
+        //{
+        //    mapGen.seed = Random.Range(0, 10000);
+        //}
+        //else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
+        //{
+        //    int customSeed;
+        //    customSeed = PlayerPrefs.GetInt("customSeedInput");
+        //    mapGen.seed = customSeed;
+        //    Debug.Log("CUSTOMSEED :" + customSeed);
+        //}
 
         Debug.Log("RANDOMSEED :" + mapGen.seed);
 

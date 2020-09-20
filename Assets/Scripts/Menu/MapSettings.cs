@@ -6,25 +6,23 @@ using TMPro;
 
 public class MapSettings : MonoBehaviour
 {
-    public Toggle randomSeedToggle;
-    //public Dropdown animalDropDown;
-    //public Dropdown predatorDropDown;
+    [Header("Animal")]
     public TMP_Dropdown animalDropDown;
-    public TMP_Dropdown predatorDropDown;
-
     public bool smallAnimalDropDown = false;
     public bool mediumAnimalDropDown = false;
     public bool largeAnimalDropDown = false;
 
+    [Header("Predator")]
+    public TMP_Dropdown predatorDropDown;
     public bool smallPredatorDropDown = false;
     public bool mediumPredatorDropDown = false;
     public bool largePredatorDropDown = false;
 
+    [Header("Seed")]
+    public Toggle randomSeedToggle;
     public bool randomSeed = false;
-
     public TMP_InputField seedInputField;
 
-    // Start is called before the first frame update
     void Start()
     {
         mediumAnimalDropDown = true;
@@ -34,7 +32,6 @@ public class MapSettings : MonoBehaviour
         GetRandomSeedToggle();
     }
 
-    // Update is called once per frame
     void Update()
     {
         

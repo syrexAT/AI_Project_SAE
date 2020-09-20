@@ -14,6 +14,11 @@ public class Spawner : MonoBehaviour
     public GameObject animal;
     public GameObject predator;
 
+    public Transform treeHolder;
+    public Transform plantHolder;
+    public Transform animalHolder;
+    public Transform predatorHolder;
+
     public List<GameObject> plants = new List<GameObject>();
     public List<GameObject> trees = new List<GameObject>();
 
@@ -61,7 +66,8 @@ public class Spawner : MonoBehaviour
             {
                 int randomIndex = Random.Range(0, trees.Count);
                 GameObject randomTree = trees[randomIndex];
-                Instantiate(randomTree, hit.point + new Vector3(0, 0, 0), Quaternion.identity); //y ist 0 oder 5f wars nur beim cube weil der size 10 hatte und der pivot genau in der mitte war
+                GameObject spawnedTree = Instantiate(randomTree, hit.point + new Vector3(0, 0, 0), Quaternion.identity); //y ist 0 oder 5f wars nur beim cube weil der size 10 hatte und der pivot genau in der mitte war
+                spawnedTree.transform.parent = treeHolder.transform;
             }
             //else
             //{
@@ -83,7 +89,8 @@ public class Spawner : MonoBehaviour
             {
                 int randomIndex = Random.Range(0, plants.Count);
                 GameObject randomPlant = plants[randomIndex];
-                Instantiate(randomPlant, hit.point + new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject spawnedPlant = Instantiate(randomPlant, hit.point + new Vector3(0, 0, 0), Quaternion.identity);
+                spawnedPlant.transform.parent = plantHolder.transform;
             }
             //else
             //{
@@ -134,7 +141,8 @@ public class Spawner : MonoBehaviour
         {
             if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
-                Instantiate(animal, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                GameObject spawnedAnimal = Instantiate(animal, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                spawnedAnimal.transform.parent = animalHolder.transform;
             }
             //else
             //{
@@ -158,7 +166,8 @@ public class Spawner : MonoBehaviour
         {
             if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
             {
-                Instantiate(predator, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                GameObject spawnedPredator = Instantiate(predator, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
+                spawnedPredator.transform.parent = predatorHolder.transform;
             }
             //else
             //{
