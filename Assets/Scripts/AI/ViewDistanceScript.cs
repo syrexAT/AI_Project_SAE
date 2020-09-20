@@ -11,29 +11,16 @@ public class ViewDistanceScript : MonoBehaviour
         stateMachineEntity = GetComponentInParent<StateMachineEntity>();
     }
 
+    private void Start()
+    {
+        InvokeRepeating("WaterTileCheck", 0, 1.0f);
+    }
+
     private void Update()
     {
         //WORKING, Detects water tile when in range and removes it when out of range
         //FUNKTIONIERT FAST, er detect am rand der map die water tiles nicht????ß whyyyyyyyyyyyyyyyyyyyyyyyyyyyy
         // musste vector3 sein weil sonst hat er noch x und höhe y !
-        foreach (var water in MapGenerator.waterList)
-        {
-            if (Vector3.Distance(new Vector3 (water.x,0,water.y), transform.position) <= stateMachineEntity.viewDistance)
-            {
-                AddVector2ToListOnce(water, stateMachineEntity.waterInRange);
-            }
-            if (Vector3.Distance(new Vector3(water.x, 0, water.y), transform.position) >= stateMachineEntity.viewDistance)
-            {
-                if (stateMachineEntity.waterInRange.Contains(water))
-                {
-                    stateMachineEntity.waterInRange.Remove(water);
-                }
-            }
-            //if (Vector3.Distance(new Vector2(water.x, water.y), transform.position) >= stateMachineEntity.viewDistance)
-            //{
-            //    stateMachineEntity.waterInRange.Remove(water);
-            //}
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,6 +54,34 @@ public class ViewDistanceScript : MonoBehaviour
             myList.Add(vector);
         }
     }
+
+    public void WaterTileCheck()
+    {
+        foreach (var water in MapGenerator.waterList)
+        {
+            if (Vector3.Distance(new Vector3(water.x, 0, water.y), transform.position) <= stateMachineEntity.viewDistance)
+            {
+                AddVector2ToListOnce(water, stateMachineEntity.waterInRange);
+            }
+            else
+            {
+                if (stateMachineEntity.waterInRange.Contains(water))
+                {
+                    stateMachineEntity.waterInRange.Remove(water);
+                }
+            }
+            //if (Vector3.Distance(new Vector3(water.x, 0, water.y), transform.position) >= stateMachineEntity.viewDistance)
+            //{
+
+            //}
+        }
+    }
+
+    //IEnumerator WaterTileCheckEnumerator()
+    //{
+
+    //}
+
 
     //public static GameObject FindClosestPlant()
     //{

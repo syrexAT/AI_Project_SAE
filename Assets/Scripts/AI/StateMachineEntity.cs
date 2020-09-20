@@ -81,7 +81,7 @@ public class StateMachineEntity : MonoBehaviour
             if (objectReference.animal.currentlyBestPlant != null)
             {
                 foodTarget = objectReference.animal.currentlyBestPlant.GetComponent<PlantScript>();
-                float eatAmount = Time.deltaTime * 1 / objectReference.animal.eatDuraton;
+                float eatAmount = Time.deltaTime * objectReference.animal.hungerReductionPerSecond;
                 eatAmount = foodTarget.Consume(eatAmount);
                 objectReference.animal.hunger -= eatAmount;
             }
@@ -96,6 +96,9 @@ public class StateMachineEntity : MonoBehaviour
 
         public override void Update()
         {
+            objectReference.agent.enabled = true;
+            objectReference.agent.isStopped = false;
+
             float bestDistance = Mathf.Infinity;
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
             foreach (var predator in objectReference.predatorInRange) //to find out which predator is the nearest
@@ -143,6 +146,7 @@ public class StateMachineEntity : MonoBehaviour
         public override void Entered()
         {
             timer = wanderTimer;
+            objectReference.agent.enabled = true;
         }
 
         public override void Update()
@@ -165,6 +169,7 @@ public class StateMachineEntity : MonoBehaviour
     {
         public override bool GetIsAllowed()
         {
+            
             float bestDistance = Mathf.Infinity;
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
             foreach (var predator in objectReference.predatorInRange) //to find out which predator is the nearest
@@ -185,6 +190,8 @@ public class StateMachineEntity : MonoBehaviour
                 float distance = Vector3.Distance(objectReference.transform.position, bestPredator.transform.position);
                 return distance < objectReference.viewDistance; //so passts!
             }
+            objectReference.agent.enabled = true;
+            objectReference.agent.isStopped = false;
 
             return false;
         }
@@ -227,10 +234,10 @@ public class StateMachineEntity : MonoBehaviour
             //    }
             //}
 
-            if (Vector3.Distance(objectReference.transform.position, objectReference.animal.currentlyBestPlant.transform.position) <= 8f && objectReference.animal.currentlyBestPlant != null && objectReference != null)
+            if (!(objectReference is null) && objectReference.animal.currentlyBestPlant != null && Vector3.Distance(objectReference.transform.position, objectReference.animal.currentlyBestPlant.transform.position) <= 8f)
             {
                 objectReference.agent.isStopped = true;
-                objectReference.agent.velocity = Vector3.zero;
+                objectReference.agent.enabled = false;
                 return true;
             }
 
@@ -298,7 +305,9 @@ public class StateMachineEntity : MonoBehaviour
         public override bool GetIsAllowed()
         {
             objectReference.agent.isStopped = false;
+            Animal.reservedWaterTiles.Remove(objectReference.animal.FindClosestWaterTile());
             return objectReference.animal.thirst <= 0.01f;
+            
         }
     }
 
@@ -309,7 +318,7 @@ public class StateMachineEntity : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animal = GetComponent<Animal>();
         viewDistanceCollider = GetComponentInChildren<SphereCollider>();
-        viewDistance = viewDistanceCollider.radius * 10f;
+        viewDistance = viewDistanceCollider.radius * 5f;
         print(viewDistance);
         print(viewDistanceCollider.radius);
         stateMachine = new StateMachine<StateMachineEntity>();

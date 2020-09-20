@@ -39,8 +39,11 @@ public class Animal : MonoBehaviour
 
     public Vector3 currentlyBestWaterTile;
 
+    public static List<Vector3> reservedWaterTiles;
+
     private void Start()
     {
+        
         animalEntity = GetComponent<StateMachineEntity>();
     }
 
@@ -73,15 +76,18 @@ public class Animal : MonoBehaviour
     {
         float bestDistance = Mathf.Infinity;
         GameObject bestPlant = null; //bestPlant = closest plant
-        foreach (var plant in animalEntity.plantsInRange)
+        if (animalEntity.plantsInRange != null || animalEntity.plantsInRange.Count != 0)
         {
-            if (plant != null)
+            foreach (var plant in animalEntity.plantsInRange)
             {
-                float dist = Vector3.Distance(plant.transform.position, animalEntity.transform.position);
-                if (dist < bestDistance)
+                if (plant != null)
                 {
-                    bestDistance = dist;
-                    bestPlant = plant;
+                    float dist = Vector3.Distance(plant.transform.position, animalEntity.transform.position);
+                    if (dist < bestDistance)
+                    {
+                        bestDistance = dist;
+                        bestPlant = plant;
+                    }
                 }
             }
         }
@@ -96,13 +102,19 @@ public class Animal : MonoBehaviour
         foreach (var water in animalEntity.waterInRange)
         {
             //Debug.Log("IN SEARCHWATERSTATE");
-            float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), animalEntity.transform.position);
+            Vector3 waterTile = new Vector3(water.x, 0, water.y);
+            float dist = Vector3.Distance(waterTile, animalEntity.transform.position);
             if (dist < bestDistance)
             {
-                bestDistance = dist;
-                bestWater = water;
+                if (!reservedWaterTiles.Contains(waterTile))
+                {
+                    bestDistance = dist;
+                    bestWater = water;
+                }
+
             }
         }
+        reservedWaterTiles.Add(bestWater);
         return bestWater;
     }
 }

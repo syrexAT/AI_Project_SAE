@@ -54,6 +54,7 @@ public class MapGenerator : MonoBehaviour
 
     float animalAmount;
     float predatorAmount;
+    float plantAmount;
 
 
     private void Awake()
@@ -66,15 +67,15 @@ public class MapGenerator : MonoBehaviour
         #region GetPlayerPrefs
         if (PlayerPrefExtension.GetBool("smallAnimalBool") != false)
         {
-            animalAmount = 0.05f;
+            animalAmount = 0.015f;
         }
         else if (PlayerPrefExtension.GetBool("mediumAnimalBool") != false)
         {
-            animalAmount = 0.010f;
+            animalAmount = 0.020f;
         }
         else if (PlayerPrefExtension.GetBool("largeAnimalBool") != false)
         {
-            animalAmount = 0.015f;
+            animalAmount = 0.025f;
         }
         Debug.Log("ANIMALAMOUNT: " + animalAmount);
 
@@ -101,6 +102,7 @@ public class MapGenerator : MonoBehaviour
         waterList.Clear();
         //fetching the 2D noise map from the noise class; later on much more stuff to process the noise map to turn it into terrain map
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
+        Animal.reservedWaterTiles = new List<Vector3>();
 
         Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
 
@@ -146,17 +148,19 @@ public class MapGenerator : MonoBehaviour
                 float currentHeight = noiseMap[x, y];
                 for (int i = 0; i < regions.Length; i++)
                 {
-                    if (currentHeight <= regions[i].height)//we found the region that it falls within
+                    float height = regions[i].height;
+                    if (currentHeight <= height)//we found the region that it falls within
                     {
+
                         /*colorMap[y * mapChunkSize + x] = regions[i].color;*/ //now all colors are saved in the array
 
-                        if (regions[i].height <= 0.4f)
+                        if (height <= 0.4f && height > 0.3f)
                         {
                             //* 10 weil tiles 10 groß sind, -320 weil alles verschieben, +5 um in den tilecenter zu kommen
                             waterList.Add(new Vector2((x) * 10f - 320f + 5f, (mapChunkSize - y) * 10f - 320f - 5f)); //Adding all waterTiles to waterList
                         }
 
-                        if (regions[i].height >= 0.8f)
+                        if (height >= 0.8f)
                         {
 
                             if (Random.value <= 0.025f)
