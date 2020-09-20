@@ -523,7 +523,7 @@ MonoBehaviour:
   hungerReductionByEating: 0.1
   timeToDeathByHunger: 200
   timeToFullEnergy: 100
-  energyReductionPerSecond: 0.04
+  energyReductionPerSecond: 0.1
   energyThreshhold: 0.3
   hungerThreshhold: 0.2
   energyBar: {fileID: 6206853333798443762}
@@ -1399,8 +1399,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 41.85}
-  m_SizeDelta: {x: 82.3, y: 37.06}
+  m_AnchoredPosition: {x: 0, y: 30.262001}
+  m_SizeDelta: {x: 30, y: 17.448}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6873150096187891692
 CanvasRenderer:
@@ -1463,7 +1463,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 258
+  m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0

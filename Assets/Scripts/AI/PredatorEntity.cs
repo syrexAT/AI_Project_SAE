@@ -252,6 +252,6 @@ public class PredatorEntity : MonoBehaviour
     {
         stateMachine.Update();
         //Debug.Log(stateMachine.currentState);
-        stateText.SetText(stateMachine.currentState.ToString());
+        stateText.SetText(stateMachine.currentState.ToString().Split('+')[1]);
     }
 }
