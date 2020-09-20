@@ -12,7 +12,7 @@ public static class MeshGenerator
         float topLeftZ = (height - 1) / 2f; //right
 
         int meshSimplificationIncrement = (levelOfDetail == 0) ? 1 : levelOfDetail * 2; //if levelofdetail is 0 we want the meshSimplifciation to be 1
-        int verticesPerLine = (width - 1) / meshSimplificationIncrement + 1; //E:06 LOD Sebastian lague
+        int verticesPerLine = (width - 1) / meshSimplificationIncrement + 1;
 
         MeshData meshData = new MeshData(verticesPerLine, verticesPerLine);
         int vertexIndex = 0; // at the end of each loop increment it by 1 so we can keep track of where we are in the array
@@ -28,8 +28,8 @@ public static class MeshGenerator
 
                 meshData.uvs[vertexIndex] = new Vector2(x / (float)width, y / (float)height);
 
-                //set the triangles, looping through the map z.B: wenn wir vertex 0 sind setzen wir beide triangles für den square, das heisst wir brauchen nicht die ganz rechten und die unteren --> Siehe Sebastian Lague E05: Mesh
-                if (x < width - 1 && y < height - 1) //so we are ignoring the right and bottom edge vertices of the map
+                //set the triangles, looping through the map z.B: wenn wir vertex 0 sind setzen wir beide triangles für den square, das heisst wir brauchen nicht die ganz rechten und die unteren
+                if (x < width - 1 && y < height - 1) //ignoring the right and bottom edge vertices of the map
                 {
                     meshData.AddTriangle(vertexIndex, vertexIndex + verticesPerLine + 1, vertexIndex + verticesPerLine);
                     meshData.AddTriangle(vertexIndex + verticesPerLine + 1, vertexIndex, vertexIndex + 1);
@@ -38,7 +38,7 @@ public static class MeshGenerator
                 vertexIndex++;
             }
         }
-        return meshData; //meshData and not the mesh directly, because of threading stuff which will be added later on
+        return meshData;
     }
 }
 
@@ -54,11 +54,10 @@ public class MeshData
     public MeshData(int meshWidth, int meshHeight)
     {
         vertices = new Vector3[meshWidth * meshHeight];
-        uvs = new Vector2[meshWidth * meshHeight]; //tell each vertex where it is in realtion to the rest the map in percentage to the x and y axis
+        uvs = new Vector2[meshWidth * meshHeight]; //tell each vertex where it is in relation to the rest the map in percentage to the x and y axis
         triangles = new int[(meshWidth - 1) * (meshHeight - 1) * 6];
         //3x3 map hat 9 vertices
         //Meshes sind triangles, also braucht man int array wo each set of 3 int points to the vertices which make up the triangle
-        //
     }
     public void AddTriangle(int a, int b, int c) //3 points-- each vertex of the triangle
     {
@@ -75,7 +74,7 @@ public class MeshData
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
-        mesh.RecalculateNormals(); //for the lighting that it works out nicely
+        mesh.RecalculateNormals(); //for lighting
         return mesh;
     }
 }

@@ -427,6 +427,7 @@ MonoBehaviour:
   waterInRange: []
   animal: {fileID: 0}
   stateText: {fileID: 2147696513465207842}
+  normalSpeed: 0
 --- !u!114 &983782499700475596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,21 +441,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thirst: 0
-  hunger: 0
   timeToDeathByThirst: 100
-  timeToDeathByHunger: 150
   thirstReductionPerSecond: 0.05
-  hungerReductionPerSecond: 0.01
-  moreHungry: 0
   moreThirsty: 0
-  drinkDuration: 6
-  eatDuraton: 8
-  criticalPercent: 0.7
-  viewDistance: 0
-  timeBetweenActionsChoices: 0
-  moveSpeed: 0
-  isDrinking: 0
-  isEating: 0
+  hunger: 0
+  timeToDeathByHunger: 150
+  hungerReductionPerSecond: 0.025
+  moreHungry: 0
   hungerBar: {fileID: 4281563766615787084}
   thirstBar: {fileID: 3319330894137637110}
   animalEntity: {fileID: 0}
@@ -470,10 +463,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 35
-  m_Acceleration: 80
+  m_Speed: 17.5
+  m_Acceleration: 40
   avoidancePriority: 50
-  m_AngularSpeed: 1200
+  m_AngularSpeed: 600
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1

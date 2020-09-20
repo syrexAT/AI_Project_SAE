@@ -44,11 +44,9 @@ public class MapSettings : MonoBehaviour
             smallAnimalDropDown = true;
             mediumAnimalDropDown = false;
             largeAnimalDropDown = false;
-            //PlayerPrefs.SetInt("smallAnimalBool", smallAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("smallAnimalBool", true);
             PlayerPrefExtension.SetBool("mediumAnimalBool", false);
             PlayerPrefExtension.SetBool("largeAnimalBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
 
@@ -57,11 +55,9 @@ public class MapSettings : MonoBehaviour
             mediumAnimalDropDown = true;
             smallAnimalDropDown = false;
             largeAnimalDropDown = false;
-            //PlayerPrefs.SetInt("mediumAnimalBool", mediumAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("mediumAnimalBool", true);
             PlayerPrefExtension.SetBool("smallAnimalBool", false);
             PlayerPrefExtension.SetBool("largeAnimalBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
 
@@ -70,11 +66,9 @@ public class MapSettings : MonoBehaviour
             largeAnimalDropDown = true;
             mediumAnimalDropDown = false;
             smallAnimalDropDown = false;
-            //PlayerPrefs.SetInt("largeAnimalBool", largeAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("largeAnimalBool", true);
             PlayerPrefExtension.SetBool("smallAnimalBool", false);
             PlayerPrefExtension.SetBool("mediumAnimalBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
     }
@@ -86,11 +80,9 @@ public class MapSettings : MonoBehaviour
             smallPredatorDropDown = true;
             mediumPredatorDropDown = false;
             largePredatorDropDown = false;
-            //PlayerPrefs.SetInt("smallAnimalBool", smallAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("smallPredatorBool", true);
             PlayerPrefExtension.SetBool("mediumPredatorBool", false);
             PlayerPrefExtension.SetBool("largePredatorBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
 
@@ -99,11 +91,9 @@ public class MapSettings : MonoBehaviour
             mediumPredatorDropDown = true;
             smallPredatorDropDown = false;
             largePredatorDropDown = false;
-            //PlayerPrefs.SetInt("mediumAnimalBool", mediumAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("mediumPredatorBool", true);
             PlayerPrefExtension.SetBool("smallPredatorBool", false);
             PlayerPrefExtension.SetBool("largePredatorBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
 
@@ -112,11 +102,9 @@ public class MapSettings : MonoBehaviour
             largePredatorDropDown = true;
             mediumPredatorDropDown = false;
             smallPredatorDropDown = false;
-            //PlayerPrefs.SetInt("largeAnimalBool", largeAnimalDropDown ? 1 : 0);
             PlayerPrefExtension.SetBool("largePredatorBool", true);
             PlayerPrefExtension.SetBool("smallPredatorBool", false);
             PlayerPrefExtension.SetBool("mediumPredatorBool", false);
-            //PlayerPrefs.SetFloat("AnimalAmount", 0.0005f);
             PlayerPrefs.Save();
         }
     }

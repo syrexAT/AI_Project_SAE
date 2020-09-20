@@ -7,7 +7,6 @@ public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode
     {
-        //either noisemap or colormap
         NoiseMap,
         ColorMap,
         Mesh
@@ -15,46 +14,31 @@ public class MapGenerator : MonoBehaviour
     public DrawMode drawMode;
 
     [SerializeField]
-    private int mapChunkSize = 241; // Sebastian Lague E:06 LOD
+    private int mapChunkSize = 241;
     public int Chunksize { get { return mapChunkSize; } }
 
     [Range(0, 6)]
     public int levelOfDetail; //increment value, 1 if no simplification, otherwise 2,4,8,12 for increasing levels of simplification
 
-    //values that define the map
+    [Header("MapValues")]
     public float noiseScale;
-
     public int octaves;
     [Range(0, 1)]
     public float persistance;
     public float lacunarity;
-
     public int seed;
     public Vector2 offset;
-
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
+    public bool autoUpdate; //to auto update the height and width and scale automatically and not by pressing generate (EDITOR ONLY)
 
-    public bool autoUpdate; //to auto update the height and width and scale automatically and not by pressing generate
-
+    [Header("Other")]
     public TerrainType[] regions;
-
-    public GameObject cube;
-
-    public GameObject plant;
-
     public Spawner spawner;
-
-    public int numberOfTrees;
-
-    public GameObject tree;
-
     public static List<Vector2> waterList = new List<Vector2>();
     public static MapGenerator instance;
-
     float animalAmount;
     float predatorAmount;
-    float plantAmount;
 
 
     private void Awake()
@@ -64,6 +48,7 @@ public class MapGenerator : MonoBehaviour
             instance = this;
         }
 
+        //Getting the settings from MainMenu
         #region GetPlayerPrefs
         if (PlayerPrefExtension.GetBool("smallAnimalBool") != false)
         {
@@ -100,7 +85,7 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap()
     {
         waterList.Clear();
-        //fetching the 2D noise map from the noise class; later on much more stuff to process the noise map to turn it into terrain map
+        //fetching the 2D noise map from the noise class
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
         Animal.reservedWaterTiles = new List<Vector3>();
 
@@ -113,14 +98,10 @@ public class MapGenerator : MonoBehaviour
                 float currentHeight = noiseMap[x, y];
                 for (int i = 0; i < regions.Length; i++)
                 {
-
-
                     if (currentHeight <= regions[i].height)//we found the region that it falls within
                     {
                         colorMap[y * mapChunkSize + x] = regions[i].color; //now all colors are saved in the array
-
-                        
-                        
+                     
                         break;
                     }
                 }
@@ -149,29 +130,21 @@ public class MapGenerator : MonoBehaviour
                 for (int i = 0; i < regions.Length; i++)
                 {
                     float height = regions[i].height;
-                    if (currentHeight <= height)//we found the region that it falls within
+                    if (currentHeight <= height)
                     {
-
-                        /*colorMap[y * mapChunkSize + x] = regions[i].color;*/ //now all colors are saved in the array
-
                         if (height <= 0.4f && height > 0.3f)
                         {
                             //* 10 weil tiles 10 groß sind, -320 weil alles verschieben, +5 um in den tilecenter zu kommen
                             waterList.Add(new Vector2((x) * 10f - 320f + 5f, (mapChunkSize - y) * 10f - 320f - 5f)); //Adding all waterTiles to waterList
                         }
 
+                        //Spawning stuff on Land with a chance
                         if (height >= 0.8f)
                         {
 
                             if (Random.value <= 0.025f)
                             {
                                 spawner.SpawnTrees(mapChunkSize - x - 1, y + 1);
-                                //Debug.Log(x + "    " + y);
-                                //if (Random.Range(0,101) < 20)
-                                //{
-                                //Debug.Log(x + "    " + y);
-
-                                //}
                             }
                             if (Random.value <= 0.03f)
                             {
@@ -180,10 +153,7 @@ public class MapGenerator : MonoBehaviour
 
                             if (Random.value <= animalAmount)
                             {
-
                                 spawner.SpawnAnimals(mapChunkSize - x - 1, y + 1);
-
-
                             }
 
                             if (Random.value <= predatorAmount)
@@ -198,21 +168,6 @@ public class MapGenerator : MonoBehaviour
         }
 
     }
-
-    public Vector3 GetAbsolutePosition(int x, int y)
-    {
-        return new Vector3((x) * 10f - 320f + 5f, 0f, (mapChunkSize - y) * 10f - 320f - 5f);
-    }
-
-    //private void OnDrawGizmos()
-    //{
-    //    foreach (var water in waterList)
-    //    {
-    //        Gizmos.DrawSphere(new Vector3(water.x, 0, water.y), 1f);
-    //        Debug.Log("DrawWater");
-
-    //    }
-    //}
 
     //Called when script variable is changed in inspector
     private void OnValidate()

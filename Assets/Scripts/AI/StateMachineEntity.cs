@@ -24,6 +24,8 @@ public class StateMachineEntity : MonoBehaviour
 
     public TextMeshProUGUI stateText;
 
+    public float normalSpeed;
+
     #region States
     public class SearchWaterState : State<StateMachineEntity>
     {
@@ -93,11 +95,16 @@ public class StateMachineEntity : MonoBehaviour
     public class EvadePredatorState : State<StateMachineEntity>
     {
         //Find closest predator in range, run away from him
+        public override void Entered()
+        {
+            objectReference.agent.speed = objectReference.agent.speed * 1.5f;
+        }
 
         public override void Update()
         {
             objectReference.agent.enabled = true;
             objectReference.agent.isStopped = false;
+            
 
             float bestDistance = Mathf.Infinity;
             GameObject bestPredator = null; //to prioritze the predator who is the nearest
@@ -125,6 +132,11 @@ public class StateMachineEntity : MonoBehaviour
                 }
 
             }
+        }
+
+        public override void Exited()
+        {
+            objectReference.agent.speed = objectReference.normalSpeed;
         }
     }
 
@@ -322,6 +334,7 @@ public class StateMachineEntity : MonoBehaviour
         print(viewDistance);
         print(viewDistanceCollider.radius);
         stateMachine = new StateMachine<StateMachineEntity>();
+        normalSpeed = agent.speed;
 
         #region States
 

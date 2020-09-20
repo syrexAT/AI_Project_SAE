@@ -26,14 +26,14 @@ public class PredatorEntity : MonoBehaviour
 
     public bool preyFound = false;
 
-
+    #region States
     public class IdleState : State<PredatorEntity> //WanderAround wenn energy low and predator cant hunt
     {
         //Wander Around with reduced speed until energy is at a threshhold to hunt again
         //Low move speed
 
-        public float wanderRadius = 100f; //not tested, probably needs to be set much lower 
-        public float wanderTimer = 3f; //not tested
+        public float wanderRadius = 100f;
+        public float wanderTimer = 3f;
 
         private Transform target;
         private float timer;
@@ -46,7 +46,6 @@ public class PredatorEntity : MonoBehaviour
 
         public override void Update()
         {
-            //objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
             timer += Time.deltaTime;
             if (timer >= wanderTimer)
             {
@@ -57,15 +56,10 @@ public class PredatorEntity : MonoBehaviour
         }
     }
 
-    //ÜBERDENKEN
     public class SearchPreyState : State<PredatorEntity> //wenn energy high enough and no prey in viewDistance, wander around searching for pray
     {
-        //Wander around until prey is in viewDistance then transition to HuntPrey
-        //either the predator has to be much faster or the predator still hunts when he initially found a animal in view distance even if it still leaves the distance
-        //Medium move Speed
-
-        public float wanderRadius = 100f; //not tested, probably needs to be set much lower 
-        public float wanderTimer = 1f; //not tested
+        public float wanderRadius = 100f; 
+        public float wanderTimer = 1f; 
 
         private Transform target;
         private float timer;
@@ -78,8 +72,6 @@ public class PredatorEntity : MonoBehaviour
 
         public override void Update()
         {
-            //objectReference.predator.energy += Time.deltaTime / objectReference.predator.timeToFullEnergy;
-
             timer += Time.deltaTime;
             if (timer >= wanderTimer)
             {
@@ -92,12 +84,6 @@ public class PredatorEntity : MonoBehaviour
 
     public class HuntPreyState : State<PredatorEntity> //found prey and runs to eat and its eat while using energy
     {
-        //such den nähesten animal
-        //laufe zu ihm
-        //wenn distance klein genug essen --> animal destroyen
-        //verbrauche energy während des huntPrey states, wenn kein energy dann wieder in idle sonst in serachPrey
-        //High move Speed
-
         public override void Entered()
         {
             objectReference.preyFound = true;
@@ -108,22 +94,12 @@ public class PredatorEntity : MonoBehaviour
 
         public override void Update()
         {
-
-            //ODER
-            
-
             if (objectReference.predator.currentlyHuntedAnimal != null)
             {
-                //Debug.Log(bestPrey.transform.position);
                 objectReference.agent.SetDestination(objectReference.predator.currentlyHuntedAnimal.transform.position);
                 objectReference.predator.ReduceEnergy();
             }
         }
-
-        //public override void Exited()
-        //{
-        //    objectReference.preyFound = false;
-        //}
     }
 
     public class EatPreyState : State<PredatorEntity>
@@ -133,23 +109,14 @@ public class PredatorEntity : MonoBehaviour
 
             if (objectReference.predator.currentlyHuntedAnimal != null)
             {
-                //Debug.Log("bestPrey transPos: " + objectReference.predator.currentlyHuntedAnimal.transform.position);
                 objectReference.predator.EatPreyFunction(objectReference.predator.currentlyHuntedAnimal);
             }
         }
-
-        //wenn distance klein genug isst er ihn und transitioned entweder wieder zu serachfood wenn energy high enough oder zu idle wenn nicht high enough
-        public override void Update()
-        {
-
-        }
-
-        //public override void Exited()
-        //{
-        //    objectReference.preyFound = false;
-        //}
     }
 
+    #endregion
+
+    #region Transitions
     public class NoEnergyTransition : Transition<PredatorEntity> //wenn er keine energy mehr hat geht er wieder in Idle
     {
         public override bool GetIsAllowed()
@@ -204,6 +171,7 @@ public class PredatorEntity : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
     private void Awake()
     {
@@ -213,38 +181,30 @@ public class PredatorEntity : MonoBehaviour
         viewDistance = viewDistanceCollider.radius * 10f;
 
         stateMachine = new StateMachine<PredatorEntity>();
-
+        #region States
         stateMachine.AddState(new IdleState() { objectReference = this }, "Idle");
         stateMachine.AddState(new SearchPreyState() { objectReference = this }, "SearchPrey");
         stateMachine.AddState(new HuntPreyState() { objectReference = this }, "HuntPrey");
         stateMachine.AddState(new EatPreyState() { objectReference = this }, "EatPrey");
-        //maybe another state EatPrey after HuntPrey?
+
 
         stateMachine.SetInitialState("Idle"); //von da aber direkt in SearchPrey gehen wenn genug energy und hunger groß genug
+        #endregion
 
+        #region Transitions
         stateMachine.AddTransition(new NoEnergyTransition() { objectReference = this }, "HuntPrey", "Idle");
         stateMachine.AddTransition(new HasEnergyTransition() { objectReference = this }, "Idle", "SearchPrey");
         stateMachine.AddTransition(new HasFoundPrey() { objectReference = this }, "SearchPrey", "HuntPrey");
         stateMachine.AddTransition(new IsCloseEnoughToPrey() { objectReference = this }, "HuntPrey", "EatPrey");
         stateMachine.AddTransition(new HasEnergyTransition() { objectReference = this }, "EatPrey", "SearchPrey");
         stateMachine.AddTransition(new NoEnergyTransition() { objectReference = this }, "EatPrey", "Idle");
-
-        //MAYBE
-        //stateMachine.AddTransition(new NoEnergyTransition() { objectReference = this }, "SearchPrey", "Idle");
-
+        #endregion
 
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, viewDistanceCollider.radius * 10f);
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

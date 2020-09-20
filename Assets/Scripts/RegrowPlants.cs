@@ -4,83 +4,45 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 
+
+//THIS SCRIPT IS NOT IN USE
 public class RegrowPlants : MonoBehaviour
 {
-    public List<GameObject> currentPlantsList = new List<GameObject>();
-    public int initialPlants;
-    public int currentPlants;
+    //public List<GameObject> currentPlantsList = new List<GameObject>();
+    //public int initialPlants;
+    //public int currentPlants;
 
-    public bool gotPlants = false;
+    //public bool gotPlants = false;
 
-    public Spawner spawner;
+    //public Spawner spawner;
 
-    public MapGenerator mapGen;
-    public int chunkSize;
+    //public MapGenerator mapGen;
+    //public int chunkSize;
 
-    public TerrainType[] regions;
+    //public TerrainType[] regions;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        spawner = GetComponent<Spawner>();
-        chunkSize = mapGen.Chunksize;
-        regions = mapGen.regions;
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    spawner = GetComponent<Spawner>();
+    //    chunkSize = mapGen.Chunksize;
+    //    regions = mapGen.regions;
+    //}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (gotPlants == false)
-        {
-            initialPlants = GameObject.FindGameObjectsWithTag("Plant").Length;
-            gotPlants = true;
-        }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (gotPlants == false)
+    //    {
+    //        initialPlants = GameObject.FindGameObjectsWithTag("Plant").Length;
+    //        gotPlants = true;
+    //    }
 
-        currentPlants = GameObject.FindGameObjectsWithTag("Plant").Length;
+    //    currentPlants = GameObject.FindGameObjectsWithTag("Plant").Length;
+    //    Debug.Log("WATER_TILES_COUNT" + " " + MapGenerator.waterList.Count);
 
-        //it obviously doesnt detect water or not because I dont give him noise values, need to fix that / figure out how to do it
-        Debug.Log("WATER_TILES_COUNT" + " " + MapGenerator.waterList.Count);
+    //    print(initialPlants);
+    //    print(currentPlants);
 
-        if (currentPlants <= 20)
-        {
-            for (int y = 0; y < chunkSize; y++)
-            {
-                for (int x = 0; x < chunkSize; x++)
-                {
-                    if (MapGenerator.waterList.Contains(new Vector2(x,y)))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        spawner.RespawnPlants(chunkSize - x - 1, y + 1);
-                    }
-                    //float currentHeight = mapGen.noiseMap[x, y];
-                    //for (int i = 0; i < regions.Length; i++)
-                    //{
-
-                    //    if (currentHeight <= regions[i].height)//we found the region that it falls within
-                    //    {
-
-                    //        if (regions[i].height >= 0.8f)
-                    //        {
-                    //            //if (Random.value <= 0.03f)
-                    //            //{
-                    //                spawner.SpawnPlants(chunkSize - x - 1, y + 1);
-
-                    //            //}
-
-                    //        }
-                    //        //break;
-                    //    }
-                    //}
-                    //float[,] noiseMap = Noise.GenerateNoiseMap(chunkSize, chunkSize, mapGen.seed, mapGen.noiseScale, mapGen.octaves, mapGen.persistance, mapGen.lacunarity, mapGen.offset);
-                }
-            }
-        }
-
-        print(initialPlants);
-        print(currentPlants);
-
-    }
+    //}
 }

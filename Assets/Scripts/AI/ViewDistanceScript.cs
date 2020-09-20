@@ -18,9 +18,7 @@ public class ViewDistanceScript : MonoBehaviour
 
     private void Update()
     {
-        //WORKING, Detects water tile when in range and removes it when out of range
-        //FUNKTIONIERT FAST, er detect am rand der map die water tiles nicht????ß whyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-        // musste vector3 sein weil sonst hat er noch x und höhe y !
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -70,38 +68,6 @@ public class ViewDistanceScript : MonoBehaviour
                     stateMachineEntity.waterInRange.Remove(water);
                 }
             }
-            //if (Vector3.Distance(new Vector3(water.x, 0, water.y), transform.position) >= stateMachineEntity.viewDistance)
-            //{
-
-            //}
         }
     }
-
-    //IEnumerator WaterTileCheckEnumerator()
-    //{
-
-    //}
-
-
-    //public static GameObject FindClosestPlant()
-    //{
-
-    //}
-
-    //public static Vector3 FindClosesetWaterTile()
-    //{
-
-    //}
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Plant")
-    //    {
-    //        stateMachineEntity.
-    //    }
-    //    if (other.gameObject.tag == "Tree")
-    //    {
-
-    //    }
-    //}
 }

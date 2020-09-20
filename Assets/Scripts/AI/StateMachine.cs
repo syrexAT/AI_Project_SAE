@@ -18,12 +18,10 @@ public class State<T> where T : MonoBehaviour
 
 }
 
-//State class but for SubStateMachine (Nested Statemachine; eine state die selber eine state beeinhaltet)
+//State class but for SubStateMachine
 public class SubStateMachineState<T> : State<T> where T : MonoBehaviour
 {
     public StateMachine<T> subStateMachine;
-    //SubStateMachine entweder: wenn sie verlassen wird, wird die aktuelle State pausiert (es bleibt in dem state), wenn er wieder geentered wird läuft es von dort weiter
-    //ODER wenn er den State verlässt, resettet sich die SubStateMachine KOMPLETT wieder (wie bei der folie mit dem head to trash usw. es startet am anfang des cycles wieder)
 
     public bool rememberStateWhenReentered; //um sich zu merken bei welchen state er rausgegangen ist
 
@@ -46,7 +44,6 @@ public class SubStateMachineState<T> : State<T> where T : MonoBehaviour
 
 }
 
-//man könnte hier reinschreiben von welchen State er zu welchen State geht (Transitions), das wird aber im Struct TransitionData geregelt
 public abstract class Transition<T> where T : MonoBehaviour
 {
     public T objectReference;
@@ -70,7 +67,7 @@ public class StateMachine<T> where T : MonoBehaviour
     public List<TransitionData<T>> transitions = new List<TransitionData<T>>(); //Liste mit allen transitions
     public string initialState; //wird immer gebraucht, der anfangsstate
 
-    //aktueller State wo man gerade ist, kan man als string oder object reference abspeichern, wir machens mit reference
+    //aktueller State wo man gerade ist, kann man als string oder object reference abspeichern
     public State<T> currentState;
 
     //Liste an allen Transitions die momentan möglich sind!, man kümmert sich nur um die transition die von meiner State momentan weggehen!
@@ -80,7 +77,7 @@ public class StateMachine<T> where T : MonoBehaviour
     {
         if (currentState == null)
         {
-            //Man holt sich aus der transition jetzut die State aus dem Dictionary
+            //Man holt sich aus der transition jetzt die State aus dem Dictionary
             //man sucht zuerst wohin, dann reinspeichern in die variable
             //der key, und OUT parameter in welche variable es reingespeichert werden soll wenns gefunden wurde, 
             //es returned ein BOOL ob er einen Wert gefunden hat oder nicht
@@ -88,7 +85,7 @@ public class StateMachine<T> where T : MonoBehaviour
             {
                 currentState.Entered();
 
-                //currentTransitions wieder holen, weil ejtzt sind noch die von der alten State
+                //currentTransitions wieder holen, weil jetzt sind noch die von der alten State
                 currentTransitions.Clear();
                 foreach (var transition in transitions)
                 {
@@ -108,7 +105,7 @@ public class StateMachine<T> where T : MonoBehaviour
         {
             if (currentTransition.transition.GetIsAllowed())
             {
-                State<T> lastState = currentState; //cachen?
+                State<T> lastState = currentState; 
 
                 if (states.TryGetValue(currentTransition.to, out currentState)) //Der State der rauskommt wenn die currentTransition zu einer state geht, wird in currenState gespeichert
                 {
@@ -125,12 +122,12 @@ public class StateMachine<T> where T : MonoBehaviour
                         }
                     }
 
-                    return; //da sind wir fertig mim suchen
+                    return;
                 }
             }
         }
 
-        currentState?.Update(); //man nimmt sich die currentState und ruft da das Update auf
+        currentState?.Update();
 
     }
 
@@ -150,7 +147,7 @@ public class StateMachine<T> where T : MonoBehaviour
     public void AddTransition(Transition<T> transition, string from, string to)
     {
         //Geschwungene Klammer um nicht extra Constructor erstellen zu müssen
-        transitions.Add(new TransitionData<T>() { transition = transition, from = from, to = to }); //variable naming is questionable
+        transitions.Add(new TransitionData<T>() { transition = transition, from = from, to = to });
     }
 
     public void SetInitialState(string name) //ID mit der wir den State finden können

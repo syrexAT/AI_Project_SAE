@@ -9,8 +9,6 @@ public class LevelLoader : MonoBehaviour
 {
     public GameObject loadingScreen;
     public Slider slider;
-    //public TextMeshProUGUI progressText;
-
     public void LoadScene(int sceneIndex)
     {
         StartCoroutine(LoadAsync(sceneIndex));
@@ -29,8 +27,6 @@ public class LevelLoader : MonoBehaviour
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             Debug.Log("AsyncProgress: " + operation.progress);
             slider.value = progress;
-            //progressText.text = progress * 100f + "%";
-
             yield return null;
         }
     }

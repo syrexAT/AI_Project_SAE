@@ -16,7 +16,7 @@ public static class Noise //static bc it will only have this instance; no monobe
     as each octave increases in detail its influence should diminish!
     the smaller the rock the less effect it should have on the outline of the mountain!!
     --> so we create Persistance, we set the amplitude of octaves
-    persistance value 0-1 lets us control how rapidly the amplitude decreases with each octave!
+    persistance value 0-1 lets us control how rapidly the amplitude decreases with each octave
     With doing all of this the mountain is realistiaclly good looking*/
     #endregion
 
@@ -53,7 +53,7 @@ public static class Noise //static bc it will only have this instance; no monobe
             {
                 float amplitude = 1;
                 float frequency = 1;
-                float noiseHeight = 0; //instead of setting noiseMap directly to perlinValue, we want to increase the noiseHeight by the perlin Value of each octave!
+                float noiseHeight = 0; //instead of setting noiseMap directly to perlinValue, we want to increase the noiseHeight by the perlin Value of each octave
 
                 for (int i = 0; i < octaves; i++)
                 {
@@ -62,7 +62,7 @@ public static class Noise //static bc it will only have this instance; no monobe
                     float sampleX = (x-halfWidth) / scale * frequency + octaveOffsets[i].x; //the higher the frequency the further apart the sample points will be --> the height values will change more rapidly
                     float sampleY = (y-halfHeight) / scale * frequency + octaveOffsets[i].y;
 
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1; //is only 0-1 but to get interesting values we want some values to be negative!
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1; //is only 0-1 but to get interesting values we want some values to be negative
                     //noiseMap[x, y] = perlinValue;
                     noiseHeight += perlinValue * amplitude;
 

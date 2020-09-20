@@ -13,10 +13,6 @@ public class MapManager : MonoBehaviour
 
     private void Awake()
     {
-        //mit LoadSceneAsync das navmesh im hintergrund builden lassen
-        //dann mit async.progress krieg ich eine float vom progress, die kann ich z.B. in ein ladebalken geben (ist ein float von 0-1)
-        //var async = SceneManager.LoadSceneAsync(1);
-        //async.progress()
         if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
         {
             mapGen.seed = Random.Range(0, 10000);
@@ -36,7 +32,7 @@ public class MapManager : MonoBehaviour
     {
         Debug.Log("RANDOMSEED :" + mapGen.seed);
         mapGen.GenerateMap();
-        //COMMENTED BECAUSE OF LONG EDITOR LOADING TIME
+
         surface.BuildNavMesh();
 
         MeshRenderer waterPlaneMesh = waterPlaneNav.GetComponent<MeshRenderer>();
@@ -45,12 +41,6 @@ public class MapManager : MonoBehaviour
         MeshRenderer mapPlaneMesh = mapPlane.GetComponent<MeshRenderer>();
         mapPlaneMesh.enabled = false;
         
-    }
-
-    IEnumerator DeactivateWaterPlane()
-    {
-        yield return new WaitForSeconds(1);
-        waterPlaneNav.SetActive(false);
     }
 
     // Update is called once per frame
