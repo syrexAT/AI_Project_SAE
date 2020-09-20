@@ -17,46 +17,27 @@ public class MapManager : MonoBehaviour
         //dann mit async.progress krieg ich eine float vom progress, die kann ich z.B. in ein ladebalken geben (ist ein float von 0-1)
         //var async = SceneManager.LoadSceneAsync(1);
         //async.progress()
-        //if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
-        //{
-        //    mapGen.seed = Random.Range(0, 10000);
-        //}
-        //else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
-        //{
-        //    int customSeed;
-        //    customSeed = PlayerPrefs.GetInt("customSeedInput");
-        //    mapGen.seed = customSeed;
-        //    Debug.Log("CUSTOMSEED :" + customSeed);
-        //}
+        if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
+        {
+            mapGen.seed = Random.Range(0, 10000);
+        }
+        else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
+        {
+            int customSeed;
+            customSeed = PlayerPrefs.GetInt("customSeedInput");
+            mapGen.seed = customSeed;
+            Debug.Log("CUSTOMSEED :" + customSeed);
+        }
 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //To give a random map on Start
-        //if (PlayerPrefExtension.GetBool("randomSeedBool") == true)
-        //{
-        //    mapGen.seed = Random.Range(0, 10000);
-        //}
-        //else if (PlayerPrefExtension.GetBool("randomSeedBool") == false && PlayerPrefs.GetInt("customSeedInput") != 0)
-        //{
-        //    int customSeed;
-        //    customSeed = PlayerPrefs.GetInt("customSeedInput");
-        //    mapGen.seed = customSeed;
-        //    Debug.Log("CUSTOMSEED :" + customSeed);
-        //}
-
         Debug.Log("RANDOMSEED :" + mapGen.seed);
-
-
         mapGen.GenerateMap();
-
         //COMMENTED BECAUSE OF LONG EDITOR LOADING TIME
         surface.BuildNavMesh();
-
-
-
 
         MeshRenderer waterPlaneMesh = waterPlaneNav.GetComponent<MeshRenderer>();
         waterPlaneMesh.enabled = false;
@@ -64,7 +45,6 @@ public class MapManager : MonoBehaviour
         MeshRenderer mapPlaneMesh = mapPlane.GetComponent<MeshRenderer>();
         mapPlaneMesh.enabled = false;
         
-        //StartCoroutine(DeactivateWaterPlane());
     }
 
     IEnumerator DeactivateWaterPlane()
@@ -76,16 +56,9 @@ public class MapManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
-
-    //public IEnumerator BuildMapAndNavMesh()
-    //{
-    //    mapGen.seed = Random.Range(0, 10000);
-
-    //    mapGen.GenerateMap();
-
-    //    //COMMENTED BECAUSE OF LONG EDITOR LOADING TIME
-    //    surface.BuildNavMesh();
-    //}
 }

@@ -37,6 +37,8 @@ public class Animal : MonoBehaviour
 
     public GameObject currentlyBestPlant;
 
+    public Vector3 currentlyBestWaterTile;
+
     private void Start()
     {
         animalEntity = GetComponent<StateMachineEntity>();
@@ -61,6 +63,10 @@ public class Animal : MonoBehaviour
             moreThirsty = true;
             moreHungry = false;
         }
+        if (hunger >= 1 || thirst >= 1)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public GameObject FindClosestPlant()
@@ -81,5 +87,22 @@ public class Animal : MonoBehaviour
         }
 
         return bestPlant;
+    }
+
+    public Vector3 FindClosestWaterTile()
+    {
+        float bestDistance = Mathf.Infinity; //glaub ich?
+        Vector3 bestWater = Vector3.zero;
+        foreach (var water in animalEntity.waterInRange)
+        {
+            //Debug.Log("IN SEARCHWATERSTATE");
+            float dist = Vector3.Distance(new Vector3(water.x, 0, water.y), animalEntity.transform.position);
+            if (dist < bestDistance)
+            {
+                bestDistance = dist;
+                bestWater = water;
+            }
+        }
+        return bestWater;
     }
 }

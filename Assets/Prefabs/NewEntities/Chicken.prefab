@@ -348,7 +348,7 @@ Transform:
   m_GameObject: {fileID: 1969419073538870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 50.49, y: 18.7, z: 10.5}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4898895339674762}
   - {fileID: 4431355569897286}
@@ -471,9 +471,9 @@ MonoBehaviour:
   thirst: 0
   hunger: 0
   timeToDeathByThirst: 100
-  timeToDeathByHunger: 200
+  timeToDeathByHunger: 150
   thirstReductionPerSecond: 0.05
-  hungerReductionPerSecond: 0
+  hungerReductionPerSecond: 0.05
   moreHungry: 0
   moreThirsty: 0
   drinkDuration: 6
@@ -488,6 +488,7 @@ MonoBehaviour:
   thirstBar: {fileID: 3319330894137637110}
   animalEntity: {fileID: 0}
   currentlyBestPlant: {fileID: 0}
+  currentlyBestWaterTile: {x: 0, y: 0, z: 0}
 --- !u!195 &345882640529907132
 NavMeshAgent:
   m_ObjectHideFlags: 0

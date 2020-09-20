@@ -58,6 +58,11 @@ public class Predator : MonoBehaviour
             hunger = 1f;
         }
 
+        if (hunger >= 1)
+        {
+            Destroy(gameObject);
+        }
+
         energyBar.fillAmount = energy;
         hungerBar.fillAmount = hunger;
     }

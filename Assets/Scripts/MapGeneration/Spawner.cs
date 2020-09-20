@@ -23,15 +23,18 @@ public class Spawner : MonoBehaviour
     public List<GameObject> trees = new List<GameObject>();
 
     public MapGenerator mapGen;
+    LayerMask mask;
 
     private void Awake()
     {
         mapGen = FindObjectOfType<MapGenerator>();
+        mask = LayerMask.GetMask("Mesh");
     }
 
     private void Start()
     {
         r = GetComponent<Renderer>();
+
     }
 
     private void Update()
@@ -51,13 +54,13 @@ public class Spawner : MonoBehaviour
         //if (currentTrees <= numberOfTrees)
         //{
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
-        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, 101f, mask)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            if (hit.transform.tag == "World")
             {
                 int randomIndex = Random.Range(0, trees.Count);
                 GameObject randomTree = trees[randomIndex];
-                GameObject spawnedTree = Instantiate(randomTree, hit.point + new Vector3(0, 0, 0), Quaternion.identity); //y ist 0 oder 5f wars nur beim cube weil der size 10 hatte und der pivot genau in der mitte war
+                GameObject spawnedTree = Instantiate(randomTree, hit.point, Quaternion.identity); //y ist 0 oder 5f wars nur beim cube weil der size 10 hatte und der pivot genau in der mitte war
                 spawnedTree.transform.parent = treeHolder.transform;
             }
             //else
@@ -74,13 +77,13 @@ public class Spawner : MonoBehaviour
     {
         RaycastHit hit;
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
-        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
+        if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, 101f, mask)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            if (hit.transform.tag == "World")
             {
                 int randomIndex = Random.Range(0, plants.Count);
                 GameObject randomPlant = plants[randomIndex];
-                GameObject spawnedPlant = Instantiate(randomPlant, hit.point + new Vector3(0, 0, 0), Quaternion.identity);
+                GameObject spawnedPlant = Instantiate(randomPlant, hit.point, Quaternion.identity);
                 spawnedPlant.transform.parent = plantHolder.transform;
             }
             //else
@@ -130,7 +133,7 @@ public class Spawner : MonoBehaviour
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
         if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            if (hit.transform.tag == "World")
             {
                 GameObject spawnedAnimal = Instantiate(animal, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
                 spawnedAnimal.transform.parent = animalHolder.transform;
@@ -155,7 +158,7 @@ public class Spawner : MonoBehaviour
         Debug.DrawRay(new Vector3(x * 10f, 100f, y * 10f), Vector3.down * Mathf.Infinity, Color.red, 30f);
         if (Physics.Raycast(new Vector3(-(x * 10f - 320f), 100f, -(y * 10f - 320f)), Vector3.down, out hit, Mathf.Infinity)/* && Random.value <= 0.5f*/)
         {
-            if (hit.transform.tag != "Plant" && hit.transform.tag != "Tree" && hit.transform.tag != "Animal" && hit.transform.tag != "Predator" && hit.transform.tag != "PredatorViewDistance")
+            if (hit.transform.tag == "World")
             {
                 GameObject spawnedPredator = Instantiate(predator, hit.point + new Vector3(0, 5f, 0), Quaternion.identity);
                 spawnedPredator.transform.parent = predatorHolder.transform;

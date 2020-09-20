@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1999393150086637604}
+  - component: {fileID: 2344684501706017594}
   m_Layer: 0
   m_Name: Bush42Holder
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,13 +25,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6395984594606714755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.09, y: 0.16, z: -2.59}
+  m_LocalPosition: {x: -1.09, y: -0.15, z: -2.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 590901792467232165}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2344684501706017594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395984594606714755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c701949fa855794aa30d46cec289e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
 --- !u!1001 &593526497689316589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4485152049400136, guid: 735686d87e844274faa389ea25227718, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.16
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 4485152049400136, guid: 735686d87e844274faa389ea25227718, type: 3}
       propertyPath: m_LocalPosition.z

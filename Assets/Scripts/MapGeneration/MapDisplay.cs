@@ -10,6 +10,8 @@ public class MapDisplay : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
 
+    public MeshCollider meshCollider;
+
     public void DrawTexture(Texture2D texture)
     {
         //Apply texture to texture renderer; Texture.material is only instantitated on runtime
@@ -20,6 +22,19 @@ public class MapDisplay : MonoBehaviour
     public void DrawMesh(MeshData meshData, Texture2D texture)
     {
         meshFilter.sharedMesh = meshData.CreateMesh();
+        meshCollider.sharedMesh = meshData.CreateMesh();
         meshRenderer.sharedMaterial.mainTexture = texture;
+
+        //Mesh inverted = meshFilter.sharedMesh;
+        //Vector3[] vertices = inverted.vertices;
+
+        //for (int i = 0; i < vertices.Length; i++)
+        //{
+        //    Vector3 vertex = vertices[i];
+        //    vertices[i] = new Vector3(vertex.x, -vertex.y +2f, vertex.z);
+        //}
+
+        //inverted.vertices = vertices;
+        //meshCollider.sharedMesh = inverted;
     }
 }

@@ -104,8 +104,6 @@ public class MapGenerator : MonoBehaviour
 
         Color[] colorMap = new Color[mapChunkSize * mapChunkSize];
 
-
-
         for (int y = 0; y < mapChunkSize; y++)
         {
             for (int x = 0; x < mapChunkSize; x++)
@@ -118,6 +116,39 @@ public class MapGenerator : MonoBehaviour
                     if (currentHeight <= regions[i].height)//we found the region that it falls within
                     {
                         colorMap[y * mapChunkSize + x] = regions[i].color; //now all colors are saved in the array
+
+                        
+                        
+                        break;
+                    }
+                }
+            }
+        }
+
+        MapDisplay display = FindObjectOfType<MapDisplay>();
+        if (drawMode == DrawMode.NoiseMap)
+        {
+            display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
+        }
+        else if (drawMode == DrawMode.ColorMap)
+        {
+            display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapChunkSize, mapChunkSize));
+        }
+        else if (drawMode == DrawMode.Mesh)
+        {
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail), TextureGenerator.TextureFromColorMap(colorMap, mapChunkSize, mapChunkSize));
+        }
+
+        for (int y = 0; y < mapChunkSize; y++)
+        {
+            for (int x = 0; x < mapChunkSize; x++)
+            {
+                float currentHeight = noiseMap[x, y];
+                for (int i = 0; i < regions.Length; i++)
+                {
+                    if (currentHeight <= regions[i].height)//we found the region that it falls within
+                    {
+                        /*colorMap[y * mapChunkSize + x] = regions[i].color;*/ //now all colors are saved in the array
 
                         if (regions[i].height <= 0.4f)
                         {
@@ -160,20 +191,6 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }
-        }
-
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-        if (drawMode == DrawMode.NoiseMap)
-        {
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
-        }
-        else if (drawMode == DrawMode.ColorMap)
-        {
-            display.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapChunkSize, mapChunkSize));
-        }
-        else if (drawMode == DrawMode.Mesh)
-        {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail), TextureGenerator.TextureFromColorMap(colorMap, mapChunkSize, mapChunkSize));
         }
 
     }

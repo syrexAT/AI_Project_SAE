@@ -64,7 +64,7 @@ public class PredatorEntity : MonoBehaviour
         //either the predator has to be much faster or the predator still hunts when he initially found a animal in view distance even if it still leaves the distance
         //Medium move Speed
 
-        public float wanderRadius = 50f; //not tested, probably needs to be set much lower 
+        public float wanderRadius = 100f; //not tested, probably needs to be set much lower 
         public float wanderTimer = 1f; //not tested
 
         private Transform target;
@@ -133,7 +133,7 @@ public class PredatorEntity : MonoBehaviour
 
             if (objectReference.predator.currentlyHuntedAnimal != null)
             {
-                Debug.Log("bestPrey transPos: " + objectReference.predator.currentlyHuntedAnimal.transform.position);
+                //Debug.Log("bestPrey transPos: " + objectReference.predator.currentlyHuntedAnimal.transform.position);
                 objectReference.predator.EatPreyFunction(objectReference.predator.currentlyHuntedAnimal);
             }
         }
@@ -251,7 +251,7 @@ public class PredatorEntity : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
-        Debug.Log(stateMachine.currentState);
+        //Debug.Log(stateMachine.currentState);
         stateText.SetText(stateMachine.currentState.ToString());
     }
 }
