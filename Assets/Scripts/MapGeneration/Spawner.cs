@@ -22,12 +22,6 @@ public class Spawner : MonoBehaviour
     public List<GameObject> plants = new List<GameObject>();
     public List<GameObject> trees = new List<GameObject>();
 
-    float randomX;
-    float randomZ;
-
-    public int numberOfTrees;
-    public int currentTrees;
-
     public MapGenerator mapGen;
 
     private void Awake()
@@ -38,9 +32,6 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         r = GetComponent<Renderer>();
-
-
-
     }
 
     private void Update()

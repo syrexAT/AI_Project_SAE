@@ -74,32 +74,21 @@ Need to reduce the -hunger and  -thirst when drinking/eating, so it will take lo
 TODO 18.09:
 GAMEPLAY:
 [X] Tiere(Hasen) und Predators spawnen lassen (wo land is obviously wieder, gleiche methode wie mit den Trees/Plants aufs mesh raycasten)
-[] Tiere/Predator spawning rand value muss noch angepasst werden, bzw verändert werden wenn man in den MapSettings andere Amounts aussucht
+[X] Tiere/Predator spawning rand value muss noch angepasst werden, bzw verändert werden wenn man in den MapSettings andere Amounts aussucht
 {IDK HOW TO} [] Pflanzen nachwachsen lassen
 [X] Predators (müssen auch Durst haben) und nur essen wenn sie Hunger haben, damit sie nciht alle Tiere instant aufessen, (tieren nachrennen sollte thirst verursachen)
 [X] wenn Predator nachläuft used er Energy, wenn er keine mehr hat entkommt das Tier
 wenn Tier pflanze isst, localScale reducen und gleichzeitig den amount reducen den das tier bekommt wenn es isst
 [X] speed von hunger durst reduction beim essen/trinken reducen, jetzt trinkt er und hat extrem schnell keinen durst mehr, sollte länger dauern!
-[] (+ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist)
-[] die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen, theoretisch mit dem mesh rumspielen das wenn die units halt so klein sind das nicht so weite offene flächen sind sondern mehr gras und wasserflächen halt kleiner obviously]
-[] Assets für Animal und Predator einfügen
+[X] Assets für Animal und Predator einfügen
 [X] Assets für Pflanzen und Bäume einfügen
-[] Agent Movement behaviour anpassen für animal und predator (turn rate etc., angular speed usw.)
-[] Animals dürfen nicht zur selben pflanze essen gehen bzw man muss die distance erhöhen wo er essen kann
 [X] Bäume als navmeshobstacles definieren
-[] Distance zur Pflanze einfügen das er nicht direkt draufsteht (probably distance checken, wenn die distance kleiner ist navmeshagent stoppen, bzw setDestination oder Pathreached auf true, probably dann etwas anpassen mit AtFoodSource,AtWaterSource!)
-[] Plant needs to shrink in size by the amount it will give hunger back again --> lösbar so wie ichs jetzt auch hab mit holder, das er relativ dazu shrinkt also richtung pivot point
 https://answers.unity.com/questions/14170/scaling-an-object-from-a-different-center.html
 []
 
-[] WaterPlane for navmesh auf inactive schalten wenn alles fertig generiert wurde
+[X] WaterPlane for navmesh auf inactive schalten wenn alles fertig generiert wurde
 
-UI:
-[] UI elemente einbauen
-[] Spawn Animal
-[] Spawn Predator
-[] Spawn Plant?
-[] Seed printen unten am bildschirm
+
 
 MENU:
 [X] MainMenu einbauen
@@ -114,8 +103,34 @@ MapSettings Menu
 
 
 
+
+
 []Color gradients einfügen für mesh (start end color statt nur color, siehe Lague video) oder terrain shaders?
 
-ERROR: Wenn seed random ist, spawnen pflanzen und bäume im etwas im boden, nciht auf der richtigen höhe?
+!!!   ERROR: Wenn seed random ist, spawnen pflanzen und bäume im etwas im boden, nciht auf der richtigen höhe?
+
+
+
+TODO 20.09.2020
+[] (+ einfügen das wenn er trinkt solange trinkt bis max 6 sekunden oder solange bis durst auf 0 ist)
+[] die sizes von animals usw. alles auf 1x1x1 setzen und den code gerecht anpassen, theoretisch mit dem mesh rumspielen das wenn die units halt so klein sind das nicht so weite offene flächen sind sondern mehr gras und wasserflächen halt kleiner obviously]
+[] Agent Movement behaviour anpassen für animal und predator (turn rate etc., angular speed usw.)
+[] Animals dürfen nicht zur selben pflanze essen gehen bzw man muss die distance erhöhen wo er essen kann
+[] Distance zur Pflanze einfügen das er nicht direkt draufsteht (probably distance checken, wenn die distance kleiner ist navmeshagent stoppen, bzw setDestination oder Pathreached auf true, probably dann etwas anpassen mit AtFoodSource,AtWaterSource!)
+[] Plant needs to shrink in size by the amount it will give hunger back again --> lösbar so wie ichs jetzt auch hab mit holder, das er relativ dazu shrinkt also richtung pivot point
+https://answers.unity.com/questions/14170/scaling-an-object-from-a-different-center.html
+
+UI:
+[] UI elemente einbauen
+[] Spawn Animal
+[] Spawn Predator
+[] Spawn Plant?
+[] Seed printen unten am bildschirm
+
+ENTITIES:
+[] Im Wander Around Angular Speed und acceleration etweas reducen sonst schauts buggy aus
+[] RunAnimations für Lion und Chicken
+[] Wenn Chicken im Drink/Eat ist dann IdleAnimation
+[] Vielleicht noch wenn im drink/eat das sich die transform pos nicht ändert sondern er konstant stehen bliebt, sonst is manchmal bissl buggy
 
 

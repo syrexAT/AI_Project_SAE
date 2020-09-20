@@ -1314,8 +1314,7 @@ MonoBehaviour:
   tree: {fileID: 5500312275653735511, guid: 9b2b48f8b683bdc4dbb641e397cebace, type: 3}
   plant: {fileID: 1189090924586164, guid: cc0f31810c96cff4094d63487225c826, type: 3}
   animal: {fileID: 8429396983511418605, guid: ccae484cf72fb2941bdad0d489e293be, type: 3}
-  predator: {fileID: 3488988128116808457, guid: d61565f480063d94f9db5f8afcb44fce,
-    type: 3}
+  predator: {fileID: 1553991042791506, guid: d2edcf95960b81249bf3f4a30ad1a908, type: 3}
   treeHolder: {fileID: 1009670322}
   plantHolder: {fileID: 1055280037}
   animalHolder: {fileID: 1164112953}
@@ -1379,8 +1378,6 @@ MonoBehaviour:
   - {fileID: 1987537655541780, guid: bfdbdf9e39022b94a9e44a2be9339e0d, type: 3}
   - {fileID: 1387981355174434, guid: 5ad525c54d45c404f854df03b2ee6c33, type: 3}
   - {fileID: 1132216053683538, guid: f40538627fa37914382958403ba84da6, type: 3}
-  numberOfTrees: 50
-  currentTrees: 0
   mapGen: {fileID: 0}
 --- !u!114 &1873717882
 MonoBehaviour:
